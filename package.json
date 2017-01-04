@@ -1,6 +1,7 @@
 {
   "name": "JNode.api",
   "main": "app.js",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/dlyt/JNode.git"
@@ -29,6 +30,8 @@
   },
   "devDependencies": {
     "mocha": "^3.2.0",
+    "shipit-cli": "^2.0.0",
+    "shipit-deploy": "^2.4.0",
     "should": "^11.1.2",
     "supertest": "^2.0.1"
   }
