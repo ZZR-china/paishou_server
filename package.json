@@ -1,18 +1,11 @@
 {
-  "name": "JNode.api",
-  "main": "app.js",
+  "name": "paishou_server",
   "version": "1.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dlyt/JNode.git"
-  },
+  "description": "Player APP",
+  "main": "./bin/backend.json",
   "scripts": {
-    "start": "supervisor ./bin/www",
-    "doc": "apidoc -i api/app -o conf/doc",
-    "test": "mocha test"
+    "test": "mocha"
   },
-  "author": "NB",
-  "license": "MIT",
   "dependencies": {
     "apidoc": "^0.16.1",
     "body-parser": "^1.15.2",
@@ -34,5 +27,20 @@
     "shipit-deploy": "^2.4.0",
     "should": "^11.1.2",
     "supertest": "^2.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debugEagle/paishou_server.git"
+  },
+  "keywords": [
+    "express",
+    "suquelize",
+    "restful"
+  ],
+  "author": "NB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/debugEagle/paishou_server/issues"
+  },
+  "homepage": "https://github.com/debugEagle/paishou_server#readme"
 }
