@@ -1,0 +1,1 @@
+define({  "name": "Player API Document",  "version": "1.0.0",  "description": "",  "title": "Player API",  "sampleUrl": false,  "apidoc": "0.2.0",  "generator": {    "name": "apidoc",    "time": "2017-01-03T12:16:29.896Z",    "url": "http://apidocjs.com",    "version": "0.16.1"  }});
