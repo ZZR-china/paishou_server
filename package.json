@@ -17,6 +17,7 @@
     "lightco": "^0.1.7",
     "log4js": "^1.1.0",
     "mysql": "^2.12.0",
+    "node-uuid": "^1.4.7",
     "nodemailer": "^2.7.0",
     "redis": "^2.6.3",
     "request": "^2.79.0",

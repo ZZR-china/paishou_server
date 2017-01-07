@@ -14,6 +14,7 @@ const { Countries,
         Cities,
         Casinos,
         Matches,
+        Match_types,
         Series,
         Serie_images, } = Models
 
@@ -87,7 +88,7 @@ series.detail = (req, res) => {
                       attributes: ['name','match_day','real_buyin','rake_buyin','abs_discount','rel_discount','unit_price'],
                     }],
                     where: {id: id},
-                    attributes: ['name','phone','website'],
+                    attributes: ['name','phone','website','is_one_ticket'],
                     order: ['matches.match_day'],
                     logging: true,
                 }
@@ -98,36 +99,24 @@ series.detail = (req, res) => {
                 return Handle.success(res, hotResult)
             }
             else {
-                if (serie.is_one_ticket == 1) {
-                    const isOneTicketOpts = {
+                const opts = {
+                    include: [{
+                        model: Matches,
                         include: [{
-                            model: Matches,
-                            attributes: ['unit_price'],
+                            model: Match_types,
+                            attributes: ['name'],
                         }],
-                        where: {id: id},
-                        attributes: ['name', 'start_date', 'end_date'],
-                    }
-
-                    var [err, isOneTicketResult] = yield Series.findOne(isOneTicketOpts)
-                    if (err) throw err
-
-                    return Handle.success(res, isOneTicketResult)
+                        attributes: ['name', 'is_one_ticket_match', 'match_day', 'start_time', 'unit_price', 'player_amount'],
+                    }],
+                    where: {id: id},
+                    attributes: ['name', 'start_date', 'end_date'],
                 }
-                else {
-                    const generalOpts = {
-                        include: [{
-                            model: Matches,
-                            attributes: ['unit_price'],
-                        }],
-                        where: {id: id},
-                        attributes: ['name', 'start_date', 'end_date'],
-                    }
 
-                    var [err, isOneTicketResult] = yield Series.findOne(isOneTicketOpts)
-                    if (err) throw err
+                var [err, result] = yield Series.findOne(opts)
+                if (err) throw err
 
-                    return Handle.success(res, isOneTicketResult)
-                }
+                return Handle.success(res, result)
+
             }
 
         } catch (e) {

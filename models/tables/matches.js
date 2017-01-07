@@ -15,27 +15,27 @@ module.exports = (db) => {
             allowNull             : false,
         },
         publish_state             : {
-            type                  : Sequelize.INTEGER,
+            type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
         },
         is_e_ticket               : {
-            type                  : Sequelize.INTEGER,
+            type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
         },
         is_main                   : {
-            type                  : Sequelize.INTEGER,
+            type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
         },
         is_promotion              : {
-            type                  : Sequelize.INTEGER,
+            type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
         },
         is_one_ticket_match       : {
-            type                  : Sequelize.INTEGER,
+            type                  : Sequelize.BOOLEAN,
             allowNull             : false,
         },
         image_url                 : {
@@ -99,7 +99,19 @@ module.exports = (db) => {
 			type                  : Sequelize.DATE,
             onUpdate              : Sequelize.NOW,
     		defaultValue          : Sequelize.NOW,
-        }
+        },
+        organizers_id             : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+        },
+        series_id                 : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+        },
+        match_types_id            : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+        },
     }, {
         tableName: 'matches',
         freezeTableName: true,

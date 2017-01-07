@@ -4,6 +4,7 @@ module.exports = (db) => {
 	return {
 		User: require('./user')(db),
 		Matches: require('./matches')(db),
+		Match_types: require('./match_types')(db),
 		Series: require('./series')(db),
 		Serie_images: require('./serie_images')(db),
 		Organizers: require('./organizers')(db),

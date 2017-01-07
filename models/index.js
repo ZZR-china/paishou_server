@@ -10,6 +10,7 @@ const t = require('./tables')(db)
 t.Casinos.belongsTo(t.Countries, {foreignKey: 'countries_id'})
 t.Casinos.belongsTo(t.Cities, {foreignKey: 'cities_id'})
 
+t.Matches.belongsTo(t.Match_types, {foreignKey: 'match_types_id'})
 
 t.Series.belongsTo(t.Casinos, {foreignKey: 'casinos_id'})
 t.Series.hasMany(t.Matches, {foreignKey: 'series_id'})
