@@ -75,20 +75,18 @@ token.decode = (req, res, next) => {
                         _token = credentials
                 }
             }
-            if (!_token)
-              return handle.error(res, '1010', 403)
+            if (!_token) return handle.error(res, '1010', 403)
 
             var [err, decoded] = yield jwt.verify(_token, secret, $)
-            if (err || !decoded) {
-              return handle.error(res, '1009', 403)
-            }
+
+            if (err || !decoded) return handle.error(res, '1009', 403)
 
             var id = decoded.id || ''
             var [err, token] = yield cache.hget('jsonwebtoken', id, $)
             if (err) throw err
 
-            if (_token != token)
-              return handle.error(res, '1009', 403)
+            if (_token != token) return handle.error(res, '1009', 403)
+
 
             var [err, user] = yield User.findById(id)
             if (err) throw err

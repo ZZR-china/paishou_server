@@ -20,8 +20,8 @@ user.password = {}
 user.password.secret = 'cf7e5aa6-f379-408c-8306-520992afe43a'
 
 /* 验证密码格式是否符合要求 */
-user.password.verify_fmt = function(password) {
-	if (!password || password.length < 6) {
+user.password.verify = function(password) {
+	if (!password || password.length < 6 || password.length > 16) {
 		return false
 	}
 	return true

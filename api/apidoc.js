@@ -3,9 +3,8 @@
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 500
- *
  *     {
- *       "error": "系统繁忙，请稍后再试。"
+ *       "error": "系统繁忙，请稍后再试"
  *     }
  */
 
@@ -22,7 +21,7 @@
 /**
  * @apiDefine Header
  *
- * @apiHeader {String} authorization-key 用户标识
+ * @apiHeader {String} authorization 用户标识
  *
  * @apiHeaderExample {json} Header-Example:
  *    {

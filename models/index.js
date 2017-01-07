@@ -2,15 +2,19 @@
 
 const Sequelize = require('sequelize')
 
-/*
-  JNode:   数据库名称
-  root:    mysql数据库用户名
-  123456： mysql数据库密码
- */
-const db = new Sequelize('saishibao', 'root', '123456', Conf.db.mysql)
+const db = new Sequelize('player', 'root', '123456', Conf.db.mysql)
 
 /* 导入表格 */
 const t = require('./tables')(db)
+
+t.Casinos.belongsTo(t.Countries, {foreignKey: 'countries_id'})
+t.Casinos.belongsTo(t.Cities, {foreignKey: 'cities_id'})
+
+
+t.Series.belongsTo(t.Casinos, {foreignKey: 'casinos_id'})
+t.Series.hasMany(t.Matches, {foreignKey: 'series_id'})
+t.Series.hasMany(t.Serie_images, {foreignKey: 'series_id'})
+
 
 
 /* 数据库鉴权 */

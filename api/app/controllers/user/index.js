@@ -15,26 +15,21 @@ router.use('/thirdparty', require('./thirdparty')) //第三方登录
  *
  * @apiUse Header
  *
- * @apiSuccessExample {json} Success-Response:
- *   HTTP/1.1 200 OK
- *   Body:
- *   {
- *     'message': '请求成功'
- *   }
+ * @apiUse Success
  *
  * @apiVersion 1.0.0
  */
 router.route('/')
-  .get(
-    Services.token.decode,
-    helper.user.verify_token
-  )
+    .get(
+        Services.token.decode,
+        helper.user.verifyToken
+    )
 
 /**
  * @api {post} /app/user/login 登录
  * @apiGroup User
  *
- * @apiParam {Number} mobile 手机号
+ * @apiParam {String} mobile 手机号
  * @apiParam {String} password 密码
  *
  * @apiSuccessExample {json} Success-Response:
@@ -57,20 +52,15 @@ router.route('/login')
  *
  * @apiUse Header
  *
- * @apiSuccessExample {json} Success-Response:
- *   HTTP/1.1 200 OK
- *   Body:
- *   {
- *     'message': '请求成功'
- *   }
+ * @apiUse Success
  *
  * @apiVersion 1.0.0
  */
 router.route('/logout')
-  .post(
-    Services.token.decode,
-    helper.user.logout
-  )
+    .post(
+        Services.token.decode,
+        helper.user.logout
+    )
 
 /**
  * @api {put} /app/user/revise 修改密码
@@ -78,23 +68,19 @@ router.route('/logout')
  *
  * @apiUse Header
  *
- * @apiParam {String} oldPassword 原密码
- * @apiParam {String} newPassword 新密码
+ * @apiParam {String} old_password 原密码
+ * @apiParam {String} new_password 新密码
  *
- * @apiSuccessExample {json} Success-Response:
- *   HTTP/1.1 200 OK
- *   Body:
- *   {
- *     'message': '请求成功'
- *   }
+ * @apiUse Success
  *
  * @apiVersion 1.0.0
  */
 router.route('/revise')
-  .put(
-    Services.token.decode,
-    helper.user.revise
-  )
+    .put(
+        Services.token.decode,
+        helper.user.verifyPwd,
+        helper.user.revise
+    )
 
 
 module.exports = router

@@ -89,7 +89,7 @@ exp.webcache.set = (req, string, opts, cb) => {
 		opts = {}
 	}
 	opts = opts || {}
-	let expire = opts.expire || Conf.webcache.default_expire
+	let expire = opts.expire || Conf.const.webcache.default_expire
 	let method = req.method
 	let url = req.originalUrl
 	let key = `WEB_${method}_${url}`
@@ -100,17 +100,19 @@ exp.webcache.set = (req, string, opts, cb) => {
 }
 
 
-/*  webcache 中间件 那个路由需要缓存就将此路由用app.use设置在真正处理函数之前
-	比如:
- 	router.get('/hot', webcache.get, hot) */
+/*
+webcache 中间件 那个路由需要缓存就将此路由用app.use设置在真正处理函数之前
+比如:
+ 	router.get('/hot', webcache.get, hot)
+*/
 exp.webcache.get = (req, res, next) => {
-	let method = req.method
-	let url = req.originalUrl
-	let key = `WEB_${method}_${url}`
+	const method = req.method
+	const url = req.originalUrl
+	const key = `WEB_${method}_${url}`
 	exp.get(key, (err, string) => {
 		/* 命中缓存 */
 		if (!err && string) {
-			let type = req.headers['content-type']
+			const type = req.headers['content-type']
 			if (type)
 				res.set('Content-Type', type)
 			return res.send(string)

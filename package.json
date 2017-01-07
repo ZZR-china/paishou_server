@@ -4,7 +4,9 @@
   "description": "Player APP",
   "main": "./bin/backend.json",
   "scripts": {
-    "test": "mocha"
+    "start": "supervisor ./bin/www",
+    "doc": "apidoc -i api -o conf/doc",
+    "test": "mocha test"
   },
   "dependencies": {
     "apidoc": "^0.16.1",
@@ -17,6 +19,7 @@
     "mysql": "^2.12.0",
     "nodemailer": "^2.7.0",
     "redis": "^2.6.3",
+    "request": "^2.79.0",
     "sequelize": "^3.28.0",
     "supervisor": "^0.12.0",
     "util": "^0.10.3"

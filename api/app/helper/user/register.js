@@ -8,86 +8,86 @@ const { User } = Models
 const cache = Services.cache
 const sms = Services.sms
 const template = Conf.sms.tpl
-const verify_fmt = Conf.user.password.verify_fmt
-const pwd_transform = Conf.user.password.transform
+const verifyPwd = Conf.user.password.verify
+const transformPwd = Conf.user.password.transform
 
 
-exports.get_smscode = (req, res) => {
-  lightco.run(function *($) {
-    const mobile = req.body.mobile
-    const expire = Conf.sms.expire
-    const max = Conf.sms.max
+exports.getSmscode = (req, res) => {
+    lightco.run(function *($) {
+        const mobile = req.body.mobile
+        const SMS_EXPIRE = Conf.sms.expire
+        const SMS_MAX = Conf.sms.max
 
-    try {
-        var [err, user] = yield User.findOne({where: {'user': mobile}})
-        if (err) throw err
+        try {
+            var [err, user] = yield User.findOne({where: {'user': mobile}})
+            if (err) throw err
 
-        if (user)
-          return Handle.error(res, '1000', 403)
+            if (user) {
+                return Handle.error(res, '1000', 403)
+            }
 
-        var [err, count] = yield cache.hget(`REG_${mobile}`, 'sms_count', $)
-        if (err) throw err
+            var [err, count] = yield cache.hget(`REG_${mobile}`, 'sms_count', $)
+            if (err) throw err
 
-        count = Utils.toInt(count)
+            count = Utils.toInt(count)
 
-        if (count >= max)
-          return Handle.error(res, '1001', 403)
+            if (count >= SMS_MAX) {
+                return Handle.error(res, '1001', 403)
+            }
 
-        const code = Utils.rand4()
-        const content = template.register(code)
+            const code = Utils.rand4()
+            const content = template.register(code)
 
-        var [err, body] = yield sms.send('yzm', mobile, content, $)
-        if (err) throw err
+            var [err, body] = yield sms.send('yzm', mobile, content, $)
+            if (err) throw err
 
-        if (body && body.code == 1 && body.result) {
-          var [err] = yield cache.hset(`REG_${mobile}`, 'sms_code', code, expire, $)
-          if (err) throw err
+            if (body && body.code == 1) {
+              var [err] = yield cache.hset(`REG_${mobile}`, 'sms_code', code, SMS_EXPIRE, $)
+              if (err) throw err
 
-          var [err] = yield cache.hset(`REG_${mobile}`, 'sms_count', count + 1, $)
-          if (err) throw err
+              var [err] = yield cache.hset(`REG_${mobile}`, 'sms_count', count + 1, $)
+              if (err) throw err
 
-          const json = {
-            smscode: code
-          }
+              return Handle.success(res, 0)
+            }
 
-          return Handle.success(res, json)
+            return Handle.error(res, '1002', 403)
+
+        } catch (e) {
+            logger.fatal(e)
+            return Handle.error(res)
         }
-
-        return Handle.error(res, '1002', 403)
-
-    } catch (e) {
-        logger.fatal(e)
-        return Handle.error(res)
-    }
-  })
+    })
 }
 
-exports.verify_smscode = (req, res) => {
+exports.verifySmscode = (req, res) => {
   lightco.run(function*($) {
     const mobile = req.body.mobile
-    const smscode = req.body.smscode
-    const expire = Conf.sms.expire
+    const smsCode = req.body.sms_code
+    const SMS_EXPIRE = Conf.sms.expire
 
     try {
-        if (!smscode)
-          return Handle.error(res, '1004', 400)
+        if (!smsCode) {
+            return Handle.error(res, '1004', 400)
+        }
 
         var [err, code] = yield cache.hget(`REG_${mobile}`, 'sms_code', $)
         if (err) throw err
 
-        if (code != smscode)
-          return Handle.error(res, '1004', 400)
+        if (code != smsCode) {
+            return Handle.error(res, '1004', 400)
+        }
 
         var [err] = yield cache.hdel(`REG_${mobile}`, 'sms_code', $)
         if (err) throw err
 
         const token = Utils.uuid()
 
-        var [err] = yield cache.hset(`REG_${mobile}`, 'token', token, expire, $)
+        var [err] = yield cache.hset(`REG_${mobile}`, 'token', token, SMS_EXPIRE, $)
         if (err) throw err
 
         const json = {
-          temToken: token
+            tem_token: token
         }
 
         return Handle.success(res, json)
@@ -99,35 +99,36 @@ exports.verify_smscode = (req, res) => {
   })
 }
 
-exports.set_password = (req, res) => {
+exports.setPassword = (req, res) => {
   lightco.run(function*($) {
     const mobile = req.body.mobile
-    const _token = req.body.temToken
+    const _token = req.body.tem_token
     var password = req.body.password
 
     try {
         var [err, user] = yield User.findOne({where: {'user': mobile}})
         if (err) throw err
 
-        if (user)
-          return Handle.error(res, '1000', 400)
+        if (user) {
+            return Handle.error(res, '1000', 400)
+        }
 
-        if (!_token)
-          return Handle.error(res, '1005', 400)
-
-        if (!verify_fmt(password))
-          return Handle.error(res, '1006', 400)
+        if (!_token) {
+            return Handle.error(res, '1005', 400)
+        }
 
         var [err, token] = yield cache.hget(`REG_${mobile}`, 'token', $)
         if (err) throw err
 
-        if (_token != token)
-          return Handle.error(res, '1007', 400)
+        if (_token != token) {
+            return Handle.error(res, '1007', 400)
+        }
+
 
         var [err] = yield cache.hdel(`REG_${mobile}`, 'token', $)
         if (err) throw err
 
-        password = pwd_transform(password)
+        password = transformPwd(password)
 
         var [err, user] = yield User.create({user: mobile, password:password, mobile: mobile})
         if (err) throw err
@@ -136,7 +137,7 @@ exports.set_password = (req, res) => {
         if (err) throw err
 
         const json = {
-          token: jwt
+            token: jwt
         }
 
         return Handle.success(res, json, 201)
