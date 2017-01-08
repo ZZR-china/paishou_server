@@ -1,5 +1,6 @@
 module.exports = function (shipit) {
-  require('shipit-deploy')(shipit);
+  require('shipit-deploy')(shipit)
+  require('./shipit')(shipit)
   shipit.initConfig({
     default: {
       workspace: '/tmp/github-monitor',

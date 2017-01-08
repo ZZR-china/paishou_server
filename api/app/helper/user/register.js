@@ -35,11 +35,16 @@ exports.getSmscode = (req, res) => {
                 return Handle.error(res, '1001', 403)
             }
 
-            const code = Utils.rand4()
-            const content = template.register(code)
+            const code = 8888
+            var body = {
+                code: 1
+            }
 
-            var [err, body] = yield sms.send('yzm', mobile, content, $)
-            if (err) throw err
+            // const code = Utils.rand4()
+            // const content = template.register(code)
+            //
+            // var [err, body] = yield sms.send('yzm', mobile, content, $)
+            // if (err) throw err
 
             if (body && body.code == 1) {
               var [err] = yield cache.hset(`REG_${mobile}`, 'sms_code', code, SMS_EXPIRE, $)
