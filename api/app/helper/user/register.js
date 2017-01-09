@@ -3,7 +3,7 @@
 const lightco = require('lightco')
 const logger = log4js.getLogger('user-register')
 
-const { User } = Models
+const { Users } = Models
 
 const cache = Services.cache
 const sms = Services.sms
@@ -19,7 +19,7 @@ exports.getSmscode = (req, res) => {
         const SMS_MAX = Conf.sms.max
 
         try {
-            var [err, user] = yield User.findOne({where: {'user': mobile}})
+            var [err, user] = yield Users.findOne({where: {'user': mobile}})
             if (err) throw err
 
             if (user) {
@@ -111,7 +111,7 @@ exports.setPassword = (req, res) => {
     var password = req.body.password
 
     try {
-        var [err, user] = yield User.findOne({where: {'user': mobile}})
+        var [err, user] = yield Users.findOne({where: {'user': mobile}})
         if (err) throw err
 
         if (user) {
@@ -135,7 +135,7 @@ exports.setPassword = (req, res) => {
 
         password = transformPwd(password)
 
-        var [err, user] = yield User.create({user: mobile, password:password, mobile: mobile})
+        var [err, user] = yield Users.create({user: mobile, password:password, mobile: mobile})
         if (err) throw err
 
         var [err, jwt] = yield Services.token.encode(user, $)

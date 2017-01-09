@@ -10,13 +10,36 @@ user.retrieve = require('./retrieve')
 user.thirdparty = require('./thirdparty')
 
 
-const { User } = Models
+const { Users } = Models
 const cache = Services.cache
 const _verifyPwd = Conf.user.password.verify
 const transformPwd = Conf.user.password.transform
 
-user.verifyToken = (req, res) => {
-    return Handle.success(res, 0)
+// user.verifyToken = (req, res) => {
+//     return Handle.success(res, 0)
+// }
+
+user.info = (req, res) => {
+    lightco.run(function *($) {
+        try {
+            const user = req.user
+
+            const json = {
+                mobile: user.mobile,
+                real_name: user.real_name,
+                nike_name: user.nike_name,
+                id_card: user.id_card,
+                passport_id: user.passport_id,
+                one_way_permit: user.one_way_permit,
+                point: user.point,
+            }
+
+            return Handle.success(res, json)
+        } catch (e) {
+            logger.fatal(e)
+            return Handle.error(res)
+        }
+    })
 }
 
 //登录
@@ -43,7 +66,7 @@ user.login = (req, res) => {
             }
 
 
-            var [err, user] = yield User.findOne({where: {'user': mobile}})
+            var [err, user] = yield Users.findOne({where: {'user': mobile}})
             if (err) throw err
 
             if (!user) {

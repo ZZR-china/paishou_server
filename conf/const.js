@@ -5,12 +5,16 @@ const exp = {
     series: {
         isHot: {
             limit_def: 5,
-			      limit_max: 10,
+            limit_max: 10,
+        },
+        calendar: {
+            limit_def: 10,
+            limit_max: 15,
         }
     },
     /* web缓存默认时效 单位秒 */
     webcache: {
-      default_expire: 30,
+        default_expire: 30,
     },
     big: {
         tour: {

@@ -15,7 +15,7 @@ t.Matches.belongsTo(t.Match_types, {foreignKey: 'match_types_id'})
 t.Series.belongsTo(t.Casinos, {foreignKey: 'casinos_id'})
 t.Series.hasMany(t.Matches, {foreignKey: 'series_id'})
 t.Series.hasMany(t.Serie_images, {foreignKey: 'series_id'})
-
+t.Series.belongsTo(t.Tours, {foreignKey: 'tours_id'})
 
 
 /* 数据库鉴权 */

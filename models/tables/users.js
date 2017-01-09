@@ -4,7 +4,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('user', {
+    return db.define('users', {
         id                      : {
             type                : Sequelize.INTEGER.UNSIGNED,
             primaryKey          : true,
@@ -68,7 +68,7 @@ module.exports = (db) => {
     		defaultValue        : Sequelize.NOW,
         }
     }, {
-        tableName: 'user',
+        tableName: 'users',
         freezeTableName: true,
         timestamps: false
     })

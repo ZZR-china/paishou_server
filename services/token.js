@@ -9,7 +9,7 @@ const handle = require('../lib/handle')
 const secret = Conf.user.jwt.secret
 const expire = Conf.user.jwt.expire
 
-const { User } = Models
+const { Users } = Models
 
 let token = {}
 
@@ -87,8 +87,7 @@ token.decode = (req, res, next) => {
 
             if (_token != token) return handle.error(res, '1009', 403)
 
-
-            var [err, user] = yield User.findById(id)
+            var [err, user] = yield Users.findById(id)
             if (err) throw err
 
             req.user = user

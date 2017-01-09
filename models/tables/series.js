@@ -103,8 +103,14 @@ module.exports = (db) => {
         timestamps: false,
         scopes: {
           hot: {
-            attributes: ['id','name','image_url','start_date','end_date','main_pond_desc','main_buyin_desc']
+              attributes: ['id','name','image_url','start_date','end_date','main_pond_desc','main_buyin_desc']
           },
+          default: {
+              attributes: ['name', 'start_date','end_date']
+          },
+          introduce: {
+              attributes: ['name', 'start_date', 'end_date', 'desc']
+          }
         },
     })
 }

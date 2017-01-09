@@ -1,10 +1,10 @@
 /*
- * 国家表
+ * 巡回赛表
  */
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('countries', {
+    return db.define('tours', {
         id                        : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             primaryKey            : true,
@@ -16,6 +16,10 @@ module.exports = (db) => {
             unique                : true,
         },
         image_url                 : {
+            type                  : Sequelize.STRING(45),
+            defaultValue          : null,
+        },
+        desc                      : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
@@ -30,7 +34,7 @@ module.exports = (db) => {
     	    defaultValue          : Sequelize.NOW,
         }
     }, {
-        tableName: 'countries',
+        tableName: 'tours',
         freezeTableName: true,
         timestamps: false,
     })

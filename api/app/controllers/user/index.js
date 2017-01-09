@@ -10,7 +10,7 @@ router.use('/retrieve', require('./retrieve')) //找回
 router.use('/thirdparty', require('./thirdparty')) //第三方登录
 
 /**
- * @api {get} /app/user 验证token
+ * @api {get} /app/user 获取个人信息
  * @apiGroup User
  *
  * @apiUse Header
@@ -22,7 +22,8 @@ router.use('/thirdparty', require('./thirdparty')) //第三方登录
 router.route('/')
     .get(
         Services.token.decode,
-        helper.user.verifyToken
+        //helper.user.verifyToken
+        helper.user.info
     )
 
 /**
