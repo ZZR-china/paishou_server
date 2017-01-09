@@ -31,9 +31,9 @@ exports.getSmscode = (req, res) => {
 
             count = Utils.toInt(count)
 
-            if (count >= SMS_MAX) {
-                return Handle.error(res, '1001', 403)
-            }
+            // if (count >= SMS_MAX) {
+            //     return Handle.error(res, '1001', 403)
+            // }
 
             const code = 8888
             var body = {
