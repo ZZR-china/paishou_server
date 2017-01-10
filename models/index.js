@@ -4,17 +4,27 @@ const Sequelize = require('sequelize')
 
 const db = new Sequelize('player', 'root', '123456', Conf.db.mysql)
 
+//const db = new Sequelize('player', 'ssb_admin', '123465', Conf.db.mysql)
+
 /* 导入表格 */
 const t = require('./tables')(db)
 
 t.Casinos.belongsTo(t.Countries, {foreignKey: 'countries_id'})
 t.Casinos.belongsTo(t.Cities, {foreignKey: 'cities_id'})
 
-t.Matches.belongsTo(t.Match_types, {foreignKey: 'match_types_id'})
+t.Matches.belongsTo(t.MatchTypes, {foreignKey: 'match_types_id'})
+
+t.Players.belongsTo(t.Countries, {foreignKey: 'countries_id'})
+
+
+t.PromotionResults.belongsTo(t.Players, {foreignKey: 'players_id'})
+t.MatchResults.belongsTo(t.Players, {foreignKey: 'players_id'})
+
+
 
 t.Series.belongsTo(t.Casinos, {foreignKey: 'casinos_id'})
 t.Series.hasMany(t.Matches, {foreignKey: 'series_id'})
-t.Series.hasMany(t.Serie_images, {foreignKey: 'series_id'})
+t.Series.hasMany(t.SerieImages, {foreignKey: 'series_id'})
 t.Series.belongsTo(t.Tours, {foreignKey: 'tours_id'})
 
 

@@ -1,28 +1,28 @@
 /*
- * 举办方表
+ * 赛事结果表
  */
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('organizers', {
+    return db.define('match_results', {
         id                        : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             primaryKey            : true,
             autoIncrement         : true,
         },
+        rank                      : {
+            type                  : Sequelize.INTEGER,
+            allowNull             : false,
+        },
         name                      : {
             type                  : Sequelize.STRING(45),
             allowNull             : false,
         },
-        contact_person            : {
-            type                  : Sequelize.STRING(45),
-            defaultValue          : null,
+        bonus                     : {
+            type                  : Sequelize.INTEGER,
+            allowNull             : false,
         },
-        phone                     : {
-            type                  : Sequelize.STRING(45),
-            defaultValue          : null,
-        },
-        website                   : {
+        remark                    : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
@@ -36,12 +36,16 @@ module.exports = (db) => {
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
         },
-        casinos_id                : {
+        matches_id                : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+        },
+        players_id                 : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
         },
     }, {
-        tableName: 'organizers',
+        tableName: 'match_results',
         freezeTableName: true,
         timestamps: false
     })

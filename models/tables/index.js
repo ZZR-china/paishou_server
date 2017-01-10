@@ -4,13 +4,16 @@ module.exports = (db) => {
 	return {
 		Users: require('./users')(db),
 		Matches: require('./matches')(db),
-		Match_types: require('./match_types')(db),
+		MatchTypes: require('./match_types')(db),
 		Series: require('./series')(db),
-		Serie_images: require('./serie_images')(db),
+		SerieImages: require('./serie_images')(db),
 		Tours: require('./tours')(db),
 		Organizers: require('./organizers')(db),
 		Casinos: require('./casinos')(db),
 		Countries: require('./countries')(db),
 		Cities: require('./cities')(db),
+		PromotionResults: require('./promotion_results')(db),
+		Players: require('./players')(db),
+		MatchResults: require('./match_results')(db),
 	}
 }

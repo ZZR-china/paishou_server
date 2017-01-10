@@ -1,10 +1,10 @@
 /*
- * 俱乐部表
+ * 参赛人员表
  */
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('casinos', {
+    return db.define('players', {
         id                        : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             primaryKey            : true,
@@ -14,44 +14,20 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(45),
             allowNull             : false,
         },
-        address                   : {
-            type                  : Sequelize.STRING(255),
-            allowNull             : false,
-        },
-        opening_time              : {
-            type                  : Sequelize.TIME,
+        age                       : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
         },
-        closing_time              : {
-            type                  : Sequelize.TIME,
-            defaultValue          : null,
-        },
-        contact_person            : {
+        id_card                   : {
             type                  : Sequelize.STRING(45),
             defaultValue          : null,
         },
-        phone                     : {
+        mobile                    : {
             type                  : Sequelize.STRING(45),
             defaultValue          : null,
         },
-        logo_url                  : {
+        remark                    : {
             type                  : Sequelize.STRING(255),
-            defaultValue          : null,
-        },
-        image_url                 : {
-            type                  : Sequelize.STRING(255),
-            defaultValue          : null,
-        },
-        website                   : {
-            type                  : Sequelize.STRING(255),
-            defaultValue          : null,
-        },
-        longitude                 : {
-            type                  : Sequelize.DECIMAL(10,7),
-            defaultValue          : null,
-        },
-        latitude                  : {
-            type                  : Sequelize.DECIMAL(10,7),
             defaultValue          : null,
         },
         created_at: {
@@ -60,20 +36,24 @@ module.exports = (db) => {
             defaultValue          : Sequelize.NOW,
         },
         updated_at: {
-		    type                  : 'TIMESTAMP',
+    	    type                  : 'TIMESTAMP',
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
-        },
-        cities_id                 : {
-            type                  : Sequelize.INTEGER.UNSIGNED,
-            allowNull             : false,
         },
         countries_id              : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
         },
+        cities_id              : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+        },
+        users_id                 : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            defaultValue          : null,
+        },
     }, {
-        tableName: 'casinos',
+        tableName: 'players',
         freezeTableName: true,
         timestamps: false
     })

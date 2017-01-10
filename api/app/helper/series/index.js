@@ -1,8 +1,8 @@
 'use script'
 
-const lightco = require('lightco')
 const moment = require('moment')
 const Sequelize = require('sequelize')
+const lightco = require('lightco')
 const logger = log4js.getLogger('routes-series')
 
 const toInt = Utils.toInt
@@ -14,12 +14,13 @@ const { Countries,
         Cities,
         Casinos,
         Matches,
-        Match_types,
+        MatchTypes,
         Series,
-        Serie_images,
+        SerieImages,
         Tours,          } = Models
 
 series.hot = require('./hot')
+series.players = require('./players')
 
 //赛事日历
 series.calendar = (req, res) => {
@@ -111,66 +112,6 @@ series.calendar = (req, res) => {
     })
 }
 
-//热门赛事列表
-series.is_hot = (req, res) => {
-    lightco.run(function *($) {
-        const DEF = Conf.const.series.isHot.limit_def
-        const MAX = Conf.const.series.isHot.limit_max
-        const timeline = new Date(moment().subtract(3, 'days'))
-
-        try {
-            const opts = {
-              include: [{
-                model: Casinos, required: true,
-                attributes: [],
-                include: [{
-                  model: Countries, required: true,
-                  attributes: [
-                      sequelize.literal('`casino.country`.`name` AS `country`'),
-                  ],
-                }, {
-                  model: Cities, required: true,
-                  attributes: [
-                      sequelize.literal('`casino.city`.`name` AS `city`'),
-                  ]
-                }]
-              }],
-              order: [['hot_level', 'ASC'], ['start_date', 'ASC']],
-              offset: toInt(req.query.offset, 0),
-              limit: toInt(req.query.limit, DEF),
-              where: {
-                  is_hot: 1,
-                  end_date: {$gte: timeline},
-              },
-              raw: true,
-            }
-
-            opts.limit = opts.limit > MAX ? MAX : opts.limit
-
-            var [err, result] = yield Series.scope('hot').findAndCountAll(opts)
-            if (err) throw err
-
-            result.rows.forEach(function(item) {
-                 delete item['casino.city.id']
-                 delete item['casino.country.id']
-            })
-
-            if (result.count === 0) {
-                return Handle.success(res, 0, 204)
-            }
-            else {
-                yield webcache.set(req, JSON.stringify(result), $)
-
-                return Handle.success(res, result)
-            }
-
-        } catch (e) {
-            logger.fatal(e)
-            return Handle.error(res)
-        }
-    })
-}
-
 //赛事详情
 series.detail = (req, res) => {
     lightco.run(function *($) {
@@ -180,23 +121,34 @@ series.detail = (req, res) => {
             var [err, serie] = yield Series.findById(id)
             if (err) throw err
 
+            if (serie === null) {
+                return Handle.error(res, '1030', 400)
+            }
+
             //判断是否热门赛事
             if (serie.is_hot == 0) {
                 const hotOpts = {
                     include: [{
-                      model: Serie_images,
+                      model: SerieImages,
                       attributes: [['image_url','url']],
                     }, {
                       model: Casinos,
                       attributes: ['address'],
                     }, {
                       model: Matches,
-                      attributes: ['name','match_day','real_buyin','rake_buyin','abs_discount','rel_discount','unit_price'],
+                      attributes: [
+                          'name',
+                          'match_day',
+                          'real_buyin',
+                          'rake_buyin',
+                          'abs_discount',
+                          'rel_discount',
+                          'unit_price',
+                      ],
                     }],
                     where: {id: id},
                     attributes: ['name','phone','website','is_one_ticket'],
                     order: ['matches.match_day'],
-                    logging: true,
                 }
 
                 var [err, hotResult] = yield Series.findOne(hotOpts)
@@ -211,10 +163,17 @@ series.detail = (req, res) => {
                     include: [{
                         model: Matches,
                         include: [{
-                            model: Match_types,
+                            model: MatchTypes,
                             attributes: ['name'],
                         }],
-                        attributes: ['name', 'is_one_ticket_match', 'match_day', 'start_time', 'unit_price', 'player_amount'],
+                        attributes: [
+                            'name',
+                            'is_one_ticket_match',
+                            'match_day',
+                            'start_time',
+                            'unit_price',
+                            'player_amount',
+                        ],
                     }],
                     where: {id: id},
                 }

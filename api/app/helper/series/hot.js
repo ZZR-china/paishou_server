@@ -1,7 +1,7 @@
 'use script'
 
-const lightco = require('lightco')
 const moment = require('moment')
+const lightco = require('lightco')
 const logger = log4js.getLogger('routes-series-hot')
 
 const toInt = Utils.toInt
@@ -12,7 +12,7 @@ const { Countries,
         Cities,
         Casinos,
         Series,
-        Serie_images, } = Models
+        SerieImages, } = Models
 
 
 //热门赛事列表
@@ -67,7 +67,6 @@ exports.list = (req, res) => {
 
                 return Handle.success(res, result)
             }
-
         } catch (e) {
             logger.fatal(e)
             return Handle.error(res)
@@ -79,29 +78,30 @@ exports.list = (req, res) => {
 exports.introduce = (req, res) => {
     lightco.run(function *($) {
         const id = req.params.id
-        console.log(1);
+
         try {
             const opts = {
                 include: [{
                   model: Casinos,
                   attributes: ['address'],
                 }, {
-                  model: Serie_images,
-                  attributes: ['image_url']
+                  model: SerieImages,
+                  attributes: [['image_url', 'url']],
                 }],
-                where: {
-                    id: id,
-                },
-                //raw: true,
+                where: {id: id},
             }
 
             var [err, result] = yield Series.scope('introduce').findOne(opts)
             if (err) throw err
 
-            //yield webcache.set(req, JSON.stringify(result), $)
+            if (result === null) {
+                return Handle.error(res, '1030', 400)
+            }
+            else {
+                yield webcache.set(req, JSON.stringify(result), $)
 
-            return Handle.success(res, result)
-
+                return Handle.success(res, result)
+            }
         } catch (e) {
             logger.fatal(e)
             return Handle.error(res)

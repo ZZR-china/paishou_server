@@ -1,28 +1,36 @@
 /*
- * 举办方表
+ * 晋级人员表
  */
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('organizers', {
+    return db.define('promotion_results', {
         id                        : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             primaryKey            : true,
             autoIncrement         : true,
         },
+        rank                      : {
+            type                  : Sequelize.INTEGER,
+            allowNull             : false,
+        },
         name                      : {
             type                  : Sequelize.STRING(45),
             allowNull             : false,
         },
-        contact_person            : {
-            type                  : Sequelize.STRING(45),
-            defaultValue          : null,
+        stack                     : {
+            type                  : Sequelize.INTEGER,
+            allowNull             : false,
         },
-        phone                     : {
+        table                     : {
             type                  : Sequelize.STRING(45),
-            defaultValue          : null,
+            allowNull             : false,
         },
-        website                   : {
+        seat                      : {
+            type                  : Sequelize.STRING(45),
+            allowNull             : false,
+        },
+        remark                    : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
@@ -36,12 +44,16 @@ module.exports = (db) => {
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
         },
-        casinos_id                : {
+        matches_id                : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+        },
+        players_id                 : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
         },
     }, {
-        tableName: 'organizers',
+        tableName: 'promotion_results',
         freezeTableName: true,
         timestamps: false
     })
