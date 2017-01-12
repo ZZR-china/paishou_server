@@ -1,7 +1,7 @@
 'use strict'
 
-const base64 = require('node-base64-image')
-const request = require("co-request")
+// const base64 = require('node-base64-image')
+// const request = require("co-request")
 const express = require('express')
 const router = express.Router()
 const lightco = require('lightco')
