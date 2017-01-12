@@ -2,7 +2,7 @@
 
 const lightco = require('lightco')
 const logger = log4js.getLogger('user-bindWechat')
-const Sequelize = require('Sequelize')
+const Sequelize = require('sequelize')
 
 const wechat = Services.wechat
 
