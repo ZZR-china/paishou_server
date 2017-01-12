@@ -92,12 +92,21 @@ router.route('/')
 
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK
- 热门:
+ 热门:(isOneTicket=true oneTicketInfo存在)
     {
       "name": "Macau Poker Cup 25",
       "startDate": "2017-01-12",
       "endDate": "2017-01-31",
       "isOneTicket": true,
+      "oneTicketInfo": {
+          "id": 2,
+          "name": "2",
+          "isOneTicketMatch": true,
+          "matchDay": "2017-01-06",
+          "startTime": "19:16:47",
+          "unitPrice": null,
+          "playerAmount": null
+      },
       "matches": [
         {
           "id": "1"

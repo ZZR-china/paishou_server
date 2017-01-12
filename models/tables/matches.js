@@ -149,6 +149,17 @@ module.exports = (db) => {
                     'remark',
                 ]
             },
+            oneTicket: {
+                attributes: [
+                    'id',
+                    'name',
+                    'isOneTicketMatch',
+                    'matchDay',
+                    'startTime',
+                    'unitPrice',
+                    'playerAmount',
+                ],
+            },
         },
     })
 }

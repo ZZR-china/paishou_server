@@ -55,12 +55,12 @@ module.exports = (db) => {
         },
         startDate                 : {
             type                  : Sequelize.DATEONLY,
-            defaultValue          : null,
+            allowNull             : false,
             field                 : 'start_date',
         },
         endDate                   : {
             type                  : Sequelize.DATEONLY,
-            defaultValue          : null,
+            allowNull             : false,
             field                 : 'end_date',
         },
         mainPondDesc              : {
@@ -121,7 +121,7 @@ module.exports = (db) => {
               attributes: ['id','name','imageUrl','startDate','endDate','mainPondDesc','mainBuyinDesc']
           },
           default: {
-              attributes: ['name', 'startDate','endDate','isOneTicket']
+              attributes: ['id', 'name', 'startDate','endDate','isOneTicket']
           },
           introduce: {
               attributes: ['name', 'startDate', 'endDate', 'desc']

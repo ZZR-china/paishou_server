@@ -169,33 +169,47 @@ series.detail = (req, res) => {
                 const opts = {
                     include: [{
                         model: Matches,
-                        include: [{
-                            model: MatchTypes,
-                            attributes: ['name'],
-                        }],
                         attributes: [
                             'id',
                             'name',
-                            'isOneTicketMatch',
                             'matchDay',
                             'startTime',
                             'unitPrice',
                             'playerAmount',
                         ],
+                        include: [{
+                            model: MatchTypes,
+                            attributes: ['name'],
+                        }],
+                        where: {isOneTicketMatch: 0},
                     }],
                     where: {id: id},
                 }
 
-                var [err, result] = yield Series.scope('default').findOne(opts)
+                var [err, regularResult] = yield Series.scope('default').findOne(opts)
                 if (err) throw err
 
-                if (result === null) {
+                if (regularResult.isOneTicket) {
+                    const oneTicketOpts = {
+                        where: {
+                            seriesId: regularResult.id,
+                            isOneTicketMatch: 1,
+                        },
+                    }
+
+                    var [err, oneTicketMatch] = yield Matches.scope('oneTicket').findOne(oneTicketOpts)
+                    if (err) throw err
+
+                    regularResult.dataValues.oneTicketInfo = oneTicketMatch
+                }
+
+                if (regularResult === null) {
                     return Handle.success(res, 0, 204)
                 }
                 else {
-                    yield webcache.set(req, JSON.stringify(result), $)
+                    yield webcache.set(req, JSON.stringify(regularResult), $)
 
-                    return Handle.success(res, result)
+                    return Handle.success(res, regularResult)
                 }
             }
 
