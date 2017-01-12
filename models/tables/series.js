@@ -121,7 +121,7 @@ module.exports = (db) => {
               attributes: ['id','name','imageUrl','startDate','endDate','mainPondDesc','mainBuyinDesc']
           },
           default: {
-              attributes: ['name', 'startDate','endDate']
+              attributes: ['name', 'startDate','endDate','isOneTicket']
           },
           introduce: {
               attributes: ['name', 'startDate', 'endDate', 'desc']

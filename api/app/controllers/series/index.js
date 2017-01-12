@@ -64,6 +64,7 @@ router.route('/')
  @apiSuccess {String} name 系列赛名称*
  @apiSuccess {DATE} startDate 开始日期*
  @apiSuccess {DATE} endDate 结束日期*
+ @apiSuccess {Boolean} isOneTicket 是否一票通赛事*
  @apiSuccess {String} id 赛事ID
  @apiSuccess {String} name_matches 赛事名称*
  @apiSuccess {Boolean} isOneTicketMatch 是否一票通赛事*
@@ -96,6 +97,7 @@ router.route('/')
       "name": "Macau Poker Cup 25",
       "startDate": "2017-01-12",
       "endDate": "2017-01-31",
+      "isOneTicket": true,
       "matches": [
         {
           "id": "1"

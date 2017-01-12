@@ -128,7 +128,6 @@ series.detail = (req, res) => {
 
             //判断是否热门赛事
             if (serie.isHot == 0) {
-                console.log(1);
                 const hotOpts = {
                     include: [{
                       model: SerieImages,
