@@ -127,17 +127,19 @@ series.detail = (req, res) => {
             }
 
             //判断是否热门赛事
-            if (serie.is_hot == 0) {
+            if (serie.isHot == 0) {
+                console.log(1);
                 const hotOpts = {
                     include: [{
                       model: SerieImages,
-                      attributes: [['imageUrl','url']],
+                      attributes: [['image_url','url']],
                     }, {
                       model: Casinos,
                       attributes: ['address'],
                     }, {
                       model: Matches,
                       attributes: [
+                          'id',
                           'name',
                           'matchDay',
                           'realBuyin',
@@ -149,7 +151,7 @@ series.detail = (req, res) => {
                     }],
                     where: {id: id},
                     attributes: ['name','phone','website','isOneTicket'],
-                    order: ['matches.matchDay'],
+                    order: ['matches.match_day'],
                 }
 
                 var [err, hotResult] = yield Series.findOne(hotOpts)
@@ -173,6 +175,7 @@ series.detail = (req, res) => {
                             attributes: ['name'],
                         }],
                         attributes: [
+                            'id',
                             'name',
                             'isOneTicketMatch',
                             'matchDay',

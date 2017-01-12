@@ -18,8 +18,8 @@ const webcache = Services.cache.webcache
  @apiSuccess {String} id 系列赛ID*
  @apiSuccess {String} name 系列赛名称
  @apiSuccess {String} imageUrl 系列赛图片
- @apiSuccess {String} startDate 开始日期*
- @apiSuccess {String} endDate 结束日期*
+ @apiSuccess {DATE} startDate 开始日期*
+ @apiSuccess {DATE} endDate 结束日期*
  @apiSuccess {String} mainPondDesc 主赛奖池信息
  @apiSuccess {String} mainBuyinDesc 主赛买入信息
  @apiSuccess {String} country 国家*
@@ -61,14 +61,11 @@ router.route('/')
  @apiParam {Number} id 系列赛（热门）ID
 
  @apiSuccess {String} name 系列赛名称*
- @apiSuccess {String} name 系列赛名称
- @apiSuccess {String} imageUrl 系列赛图片
- @apiSuccess {String} startDate 开始日期*
- @apiSuccess {String} endDate 结束日期*
- @apiSuccess {String} mainPondDesc 主赛奖池信息
- @apiSuccess {String} mainBuyinDesc 主赛买入信息
- @apiSuccess {String} country 国家*
- @apiSuccess {String} city 城市*
+ @apiSuccess {DATE} startDate 开始日期*
+ @apiSuccess {DATE} endDate 结束日期*
+ @apiSuccess {String} desc 系列赛描述
+ @apiSuccess {String} address 赛事地址
+ @apiSuccess {String} url 系列赛图集
 
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK
@@ -76,11 +73,11 @@ router.route('/')
       "name": "虎扑系列1",
       "startDate": "2017-01-10",
       "endDate": "2017-01-15",
-      "desc": null,
+      "desc": "描述",
       "casino": {
-        "address": "虹桥1"
+        "address": "虹桥俱乐部"
       },
-      "serie_images": [
+      "serieImages": [
         {
           "url": "http://cdn.91buyin.com/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE/mpc.jpg"
         },

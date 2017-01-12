@@ -4,7 +4,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('match_types', {
+    return db.define('type', {
         id                        : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             primaryKey            : true,
