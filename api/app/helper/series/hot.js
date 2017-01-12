@@ -33,7 +33,7 @@ exports.list = (req, res) => {
                       sequelize.literal('`casino.country`.`name` AS `country`'),
                   ],
                 }, {
-                  model: Cities, 
+                  model: Cities,
                   attributes: [
                       sequelize.literal('`casino.city`.`name` AS `city`'),
                   ]
@@ -86,7 +86,7 @@ exports.introduce = (req, res) => {
                   attributes: ['address'],
                 }, {
                   model: SerieImages,
-                  attributes: [['imageUrl', 'url']],
+                  attributes: [['image_url', 'url']],
                 }],
                 where: {id: id},
             }

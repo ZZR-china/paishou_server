@@ -24,7 +24,20 @@ router.use('/payInfo', require('./payInfo')) //付款信息
  * @apiParam {Number} offset 从第几位开始查询
  * @apiParam {Number} limit 查询数量（默认10，最大15）
  *
- * @apiUse Success
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *            "count": 1,
+ *            "rows": [
+ *              {
+ *                  "name": "Macau Poker Cup 25",
+ *                  "startDate": "2017-01-12",
+ *                  "endDate": "2017-01-31",
+ *                  "country": "中国",
+ *                  "city": "北京"
+ *               }
+ *            ]
+ *      }
  *
  * @apiVersion 1.0.0
  */
@@ -42,8 +55,21 @@ router.route('/')
  *
  * @apiParam {Number} id 系列赛ID
  *
- * @apiUse Success
- *
+ * @apiSuccessExample Success-Response:
+       HTTP/1.1 200 OK
+       {
+          "count": 1,
+          "rows": [
+            {
+              "name": "Macau Poker Cup 25",
+              "startDate": "2017-01-12",
+              "endDate": "2017-01-31",
+              "country": "中国",
+              "city": "北京"
+            }
+          ]
+        }
+ 
  * @apiVersion 1.0.0
  */
 router.route('/detail/:id')
