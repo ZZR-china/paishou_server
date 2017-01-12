@@ -1,7 +1,7 @@
 'use strict'
 
 const request = require('request')
-const logger = log4js.getLogger('[services-wechat-request]')
+const logger = log4js.getLogger('[services-wechat-auth]')
 const url = Conf.wechat.url
 
 const app = Conf.wechat.ssb.app
@@ -10,7 +10,7 @@ const auth = {
 	authorize: authorize,
 }
 
-/* wechat 登陆认证 code是客户端发来的 */
+//wechat 登陆认证 code是客户端发来的 
 function authorize(code, cb) {
 	const params = {
 		appid: app.appid,

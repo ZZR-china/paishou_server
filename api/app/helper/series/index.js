@@ -21,6 +21,7 @@ const { Countries,
 
 series.hot = require('./hot')
 series.players = require('./players')
+series.payInfo = require('./payInfo')
 
 //赛事日历
 series.calendar = (req, res) => {
@@ -38,10 +39,10 @@ series.calendar = (req, res) => {
                 const month = req.query.month
                 const length = month.length
                 if (length === 4) {
-                  query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('start_date'),'%Y'),month),'=',0))
+                  query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('startDate'),'%Y'),month),'=',0))
                 }
                 if (length === 6) {
-                  query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('start_date'),'%Y%m'),month),'=',0))
+                  query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('startDate'),'%Y%m'),month),'=',0))
                 }
             }
 
@@ -130,7 +131,7 @@ series.detail = (req, res) => {
                 const hotOpts = {
                     include: [{
                       model: SerieImages,
-                      attributes: [['image_url','url']],
+                      attributes: [['imageUrl','url']],
                     }, {
                       model: Casinos,
                       attributes: ['address'],
@@ -138,25 +139,30 @@ series.detail = (req, res) => {
                       model: Matches,
                       attributes: [
                           'name',
-                          'match_day',
-                          'real_buyin',
-                          'rake_buyin',
-                          'abs_discount',
-                          'rel_discount',
-                          'unit_price',
+                          'matchDay',
+                          'realBuyin',
+                          'rakeBuyin',
+                          'absDiscount',
+                          'relDiscount',
+                          'unitPrice',
                       ],
                     }],
                     where: {id: id},
-                    attributes: ['name','phone','website','is_one_ticket'],
-                    order: ['matches.match_day'],
+                    attributes: ['name','phone','website','isOneTicket'],
+                    order: ['matches.matchDay'],
                 }
 
                 var [err, hotResult] = yield Series.findOne(hotOpts)
                 if (err) throw err
 
-                yield webcache.set(req, JSON.stringify(hotResult), $)
+                if (hotResult === null) {
+                    return Handle.success(res, 0, 204)
+                }
+                else {
+                    yield webcache.set(req, JSON.stringify(hotResult), $)
 
-                return Handle.success(res, hotResult)
+                    return Handle.success(res, hotResult)
+                }
             }
             else {
                 const opts = {
@@ -168,11 +174,11 @@ series.detail = (req, res) => {
                         }],
                         attributes: [
                             'name',
-                            'is_one_ticket_match',
-                            'match_day',
-                            'start_time',
-                            'unit_price',
-                            'player_amount',
+                            'isOneTicketMatch',
+                            'matchDay',
+                            'startTime',
+                            'unitPrice',
+                            'playerAmount',
                         ],
                     }],
                     where: {id: id},
@@ -181,9 +187,14 @@ series.detail = (req, res) => {
                 var [err, result] = yield Series.scope('default').findOne(opts)
                 if (err) throw err
 
-                yield webcache.set(req, JSON.stringify(result), $)
+                if (result === null) {
+                    return Handle.success(res, 0, 204)
+                }
+                else {
+                    yield webcache.set(req, JSON.stringify(result), $)
 
-                return Handle.success(res, result)
+                    return Handle.success(res, result)
+                }
             }
 
         } catch (e) {

@@ -20,6 +20,7 @@ const router = express.Router()
 router.route('/getSmscode')
     .post(
         helper.user.checkPhone,
+        helper.user.checkUser,
         helper.user.register.getSmscode
     )
 
@@ -28,13 +29,13 @@ router.route('/getSmscode')
  * @apiGroup User
  *
  * @apiParam {String} mobile 手机号
- * @apiParam {String} sms_code 短信码
+ * @apiParam {String} smsCode 短信码
  *
  * @apiSuccessExample {json} Success-Response:
  *   HTTP/1.1 200 OK
  *   Body:
  *   {
- *     'tem_token': 'f37db6e2-fa96-4b48-9a18-91e82666083f'
+ *     'temToken': 'f37db6e2-fa96-4b48-9a18-91e82666083f'
  *   }
  *
  * @apiVersion 1.0.0
@@ -53,7 +54,7 @@ router.route('/verifySmscode')
  *
  * @apiParam {String} mobile 手机号
  * @apiParam {String} password 密码
- * @apiParam {String} tem_token 临时token
+ * @apiParam {String} temToken 临时token
  *
  * @apiSuccessExample {json} Success-Response:
  *   HTTP/1.1 200 OK
@@ -67,6 +68,7 @@ router.route('/verifySmscode')
 router.route('/setPassword')
     .post(
         helper.user.checkPhone,
+        helper.user.checkUser,
         helper.user.verifyPwd,
         helper.user.register.setPassword
     )

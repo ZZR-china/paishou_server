@@ -1,74 +1,82 @@
 'use script'
 
+const request = require('request')
 const lightco = require('lightco')
 const logger = log4js.getLogger('user-thirdparty-wechat')
+
 const wechat = Services.wechat
 
-const { User } = Models
+const { Users } = Models
 
 
 exports.login = (req, res) => {
   lightco.run(function *($) {
-    var transaction
+    const code = req.body.code
+
     try {
-        var [err, transaction] = yield sequelize.transaction()
+        if (!code) {
+            return Handle.error(res, '1030', 400)
+        }
+
+        var [err, authInfo] = yield wechat.auth.authorize(code, $)
         if (err) throw err
 
-        const code = req.body.code
-
-        var [err, value] = yield wechat.auth.authorize(code, $)
-        if (err) throw err
-
-        if (value.errmsg) {
-          transaction.commit()
+        if (authInfo.errmsg) {
           return Handle.error(res, '1021', 403)
         }
 
-        if (!value.unionid) {
-          transaction.commit()
+        if (!authInfo.unionid) {
           return Handle.error(res, '1021', 403)
         }
 
-        let unionid = value.unionid
-
-        let opt = {
-          where: {wechat_unionid: unionid},
-          transaction: transaction,
-        }
-
-        var [err, user] = yield User.findOne(opt)
-        if (err) throw err
-
+        let bind = false
         let created = false
 
-        /* 首次登陆 */
+        let unionid = authInfo.unionid
+        let access_token  = authInfo.access_token
+        let openid  = authInfo.openid
+
+        let opt =  {wechat_unionid: unionid}
+
+        var [err, user] = yield Users.findOne({where: opt})
+        if (err) throw err
+
         if (!user) {
-            const new_user = {
-                wechat_unionid: unionid
+
+            var [err, userInfo] = yield wechat.user.info(access_token, openid, $)
+            if (err) throw err
+
+            const userOpts = {
+                wechatUnionid: unionid,
+                nickName: userInfo.nickname,
+                headImg: userInfo.headimgurl,
             }
-            const opts = {
-                transaction: transaction
-            }
-            /* 创建用户 */
-            var [err, _user] = yield User.create(new_user, opts)
+
+            var [err, _user] = yield Users.create(userOpts)
             if (err) throw err
 
             created = true
             user = _user
         }
 
+        if (user && !user.user) {
+            created = true
+        }
+
+        if (user && user.user) {
+            bind = true
+        }
+
         var [err, jwt] = yield Services.token.encode(user, $)
         if (err) throw err
 
-        const ret = {
+        const json = {
             created: created,
-            token: jwt
+            bind: bind,
+            temToken: jwt,
         }
 
-        transaction.commit()
-
-        return res.json(Conf.promise('0', ret))
-
+        return Handle.success(res, json)
     } catch (e) {
         logger.fatal(e)
         return Handle.error(res)

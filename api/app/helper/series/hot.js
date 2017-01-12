@@ -25,21 +25,21 @@ exports.list = (req, res) => {
         try {
             const opts = {
               include: [{
-                model: Casinos, required: true,
+                model: Casinos,
                 attributes: [],
                 include: [{
-                  model: Countries, required: true,
+                  model: Countries,
                   attributes: [
                       sequelize.literal('`casino.country`.`name` AS `country`'),
                   ],
                 }, {
-                  model: Cities, required: true,
+                  model: Cities, 
                   attributes: [
                       sequelize.literal('`casino.city`.`name` AS `city`'),
                   ]
                 }]
               }],
-              order: [['hot_level', 'ASC'], ['start_date', 'ASC']],
+              order: [['hotLevel', 'ASC'], ['startDate', 'ASC']],
               offset: toInt(req.query.offset, 0),
               limit: toInt(req.query.limit, DEF),
               where: {
@@ -86,7 +86,7 @@ exports.introduce = (req, res) => {
                   attributes: ['address'],
                 }, {
                   model: SerieImages,
-                  attributes: [['image_url', 'url']],
+                  attributes: [['imageUrl', 'url']],
                 }],
                 where: {id: id},
             }
@@ -95,7 +95,7 @@ exports.introduce = (req, res) => {
             if (err) throw err
 
             if (result === null) {
-                return Handle.error(res, '1030', 400)
+                return Handle.success(res, 0, 204)
             }
             else {
                 yield webcache.set(req, JSON.stringify(result), $)

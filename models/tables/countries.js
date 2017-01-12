@@ -15,19 +15,22 @@ module.exports = (db) => {
             allowNull             : false,
             unique                : true,
         },
-        image_url                 : {
+        imageUrl                 : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
+            field                 : 'image_url',
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
 			type                  : 'TIMESTAMP',
             onUpdate              : Sequelize.NOW,
     	    defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         }
     }, {
         tableName: 'countries',

@@ -18,29 +18,34 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(255),
             allowNull             : false,
         },
-        opening_time              : {
+        openingTime              : {
             type                  : Sequelize.TIME,
             defaultValue          : null,
+            field                 : 'opening_time',
         },
-        closing_time              : {
+        closingTime              : {
             type                  : Sequelize.TIME,
             defaultValue          : null,
+            field                 : 'closing_time',
         },
-        contact_person            : {
+        contactPerson            : {
             type                  : Sequelize.STRING(45),
             defaultValue          : null,
+            field                 : 'contact_person',
         },
         phone                     : {
             type                  : Sequelize.STRING(45),
             defaultValue          : null,
         },
-        logo_url                  : {
+        logoUrl                  : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
+            field                 : 'logo_url',
         },
-        image_url                 : {
+        imageUrl                 : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
+            field                 : 'image_url',
         },
         website                   : {
             type                  : Sequelize.STRING(255),
@@ -54,23 +59,27 @@ module.exports = (db) => {
             type                  : Sequelize.DECIMAL(10,7),
             defaultValue          : null,
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
 		    type                  : 'TIMESTAMP',
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
+            field                 : 'updatedAt',
         },
-        cities_id                 : {
+        citiesId                 : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'cities_id',
         },
-        countries_id              : {
+        countriesId              : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'countries_id',
         },
     }, {
         tableName: 'casinos',

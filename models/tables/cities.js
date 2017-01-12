@@ -15,15 +15,17 @@ module.exports = (db) => {
             allowNull             : false,
             unique                : true,
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
 			type                  : 'TIMESTAMP',
             onUpdate              : Sequelize.NOW,
     	    defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         }
     }, {
         tableName: 'cities',

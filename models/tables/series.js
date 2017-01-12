@@ -14,54 +14,64 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(255),
             allowNull             : false,
         },
-        publish_state             : {
+        publishState              : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
+            field                 : 'publish_state',
         },
-        is_one_ticket               : {
+        isOneTicket               : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
+            field                 : 'is_one_ticket',
         },
-        is_hot                    : {
+        isHot                     : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
+            field                 : 'is_hot',
         },
-        hot_level                 : {
+        hotLevel                  : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 5,
+            field                 : 'hot_level',
         },
-        is_daily_serie            : {
+        isDailySerie              : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
+            field                 : 'is_daily_serie',
         },
         desc                      : {
             type                  : Sequelize.TEXT,
             defaultValue          : null,
         },
-        image_url                 : {
+        imageUrl                  : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
+            field                 : 'image_url',
         },
-        start_date                : {
+        startDate                 : {
             type                  : Sequelize.DATEONLY,
             defaultValue          : null,
+            field                 : 'start_date',
         },
-        end_date                  : {
+        endDate                   : {
             type                  : Sequelize.DATEONLY,
             defaultValue          : null,
+            field                 : 'end_date',
         },
-        main_pond_desc            : {
+        mainPondDesc              : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
+            field                 : 'main_pond_desc',
         },
-        main_buyin_desc           : {
+        mainBuyinDesc             : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
+            field                 : 'main_buyin_desc',
         },
         phone                     : {
             type                  : Sequelize.STRING(45),
@@ -75,27 +85,32 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
 		    type                  : 'TIMESTAMP',
             onUpdate              : Sequelize.NOW,
     	    defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         },
-        organizers_id             : {
+        organizersId              : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'organizers_id',
         },
-        casinos_id                : {
+        casinosId                 : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'casinos_id',
         },
-        tours_id                  : {
+        toursId                   : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
+            field                 : 'tours_id',
         },
     }, {
         tableName: 'series',
@@ -103,13 +118,13 @@ module.exports = (db) => {
         timestamps: false,
         scopes: {
           hot: {
-              attributes: ['id','name','image_url','start_date','end_date','main_pond_desc','main_buyin_desc']
+              attributes: ['id','name','imageUrl','startDate','endDate','mainPondDesc','mainBuyinDesc']
           },
           default: {
-              attributes: ['name', 'start_date','end_date']
+              attributes: ['name', 'startDate','endDate']
           },
           introduce: {
-              attributes: ['name', 'start_date', 'end_date', 'desc']
+              attributes: ['name', 'startDate', 'endDate', 'desc']
           }
         },
     })

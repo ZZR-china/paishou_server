@@ -8,7 +8,6 @@ const { Users } = Models
 const cache = Services.cache
 const sms = Services.sms
 const template = Conf.sms.tpl
-const verifyPwd = Conf.user.password.verify
 const transformPwd = Conf.user.password.transform
 
 
@@ -19,13 +18,6 @@ exports.getSmscode = (req, res) => {
     const SMS_MAX = Conf.sms.max
 
     try {
-        var [err, user] = yield Users.findOne({where: {'user': mobile}})
-        if (err) throw err
-
-        if (!user) {
-            return Handle.error(res, '1008', 400)
-        }
-
         var [err, count] = yield cache.hget(`RET_${mobile}`, 'sms_count', $)
         if (err) throw err
 
@@ -68,7 +60,7 @@ exports.getSmscode = (req, res) => {
 exports.verifySmscode = (req, res) => {
   lightco.run(function*($) {
     const mobile = req.body.mobile
-    const smsCode = req.body.sms_code
+    const smsCode = req.body.smsCode
     const SMS_EXPIRE = Conf.sms.expire
 
     try {
@@ -106,17 +98,10 @@ exports.verifySmscode = (req, res) => {
 exports.setPassword = (req, res) => {
   lightco.run(function*($) {
     const mobile = req.body.mobile
-    const _token = req.body.tem_token
+    const _token = req.body.temToken
     const password = req.body.password
 
     try {
-        var [err, user] = yield Users.findOne({where: {'user': mobile}})
-        if (err) throw err
-
-        if (!user) {
-            return Handle.error(res, '1008', 400)
-        }
-
         if (!_token) {
             return Handle.error(res, '1005', 400)
         }

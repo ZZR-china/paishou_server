@@ -12,60 +12,73 @@ module.exports = (db) => {
         },
         user                    : {
             type                : Sequelize.STRING(45),
-            allowNull           : false,
             unique              : true,
         },
         password                : {
             type                : Sequelize.STRING(45),
-            allowNull           : false,
-        },
-        real_name               : {
-            type                : Sequelize.STRING(45),
             defaultValue        : null,
         },
-        nike_name               : {
+        realName                : {
             type                : Sequelize.STRING(45),
             defaultValue        : null,
+            field               : 'real_name',
         },
-        id_card                 : {
+        nickName                : {
             type                : Sequelize.STRING(45),
             defaultValue        : null,
+            field               : 'nick_name',
         },
-        passport_id             : {
+        headImg                : {
+            type                : Sequelize.STRING(255),
+            defaultValue        : null,
+            field               : 'head_img',
+        },
+        idCard                  : {
             type                : Sequelize.STRING(45),
             defaultValue        : null,
+            field               : 'id_card',
         },
-        one_way_permit          : {
+        passportId              : {
             type                : Sequelize.STRING(45),
             defaultValue        : null,
+            field               : 'passport_id',
         },
-        wechat_unionid          : {
+        oneWayPermit            : {
+            type                : Sequelize.STRING(45),
+            defaultValue        : null,
+            field               : 'one_way_permit',
+        },
+        wechatUnionid           : {
             type                : Sequelize.STRING(255),
             unique              : true,
             defaultValue        : null,
+            field               : 'wechat_unionid',
         },
         point                   : {
             type                : Sequelize.INTEGER(11),
             defaultValue        : null,
         },
-        name_spell              : {
+        nameSpell               : {
             type                : Sequelize.STRING(45),
             defaultValue        : null,
+            field               : 'name_spell',
         },
         mobile                  : {
             type                : Sequelize.STRING(45),
             unique              : true,
             defaultValue        : null,
         },
-        created_at: {
+        createdAt: {
             type                : Sequelize.DATE,
             allowNull           : false,
             defaultValue        : Sequelize.NOW,
+            field               : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
 		    type                : 'TIMESTAMP',
             onUpdate            : Sequelize.NOW,
     		defaultValue        : Sequelize.NOW,
+            field               : 'updated_at',
         }
     }, {
         tableName: 'users',

@@ -29,7 +29,7 @@ router.route('/')
 * @api {get} /app/series/hot/inroduce/:id 赛事介绍（热门）
 * @apiGroup Series
 *
-* @apiDescription 缓存时间30秒
+* @apiDescription 缓存时间30秒、204-返回值为空
 *
 * @apiParam {Number} id 系列赛（热门）ID
 *

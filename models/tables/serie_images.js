@@ -10,27 +10,31 @@ module.exports = (db) => {
             primaryKey            : true,
             autoIncrement         : true,
         },
-        image_url                 : {
+        imageUrl                  : {
             type                  : Sequelize.STRING(255),
             allowNull             : false,
+            field                 : 'image_url',
         },
         desc                      : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
-        created_at                : {
+        createdAt                 : {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at                : {
+        updatedAt                 : {
 		    type                  : 'TIMESTAMP',
             onUpdate              : Sequelize.NOW,
     	    defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         },
-        series_id                 : {
+        seriesId                  : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
+            field                 : 'series_id',
         },
     }, {
         tableName: 'serie_images',

@@ -22,19 +22,22 @@ let wechat = {
     },
 	url: {
     auth: {
-      authorize: 'https://api.weixin.qq.com/sns/oauth2/access_token'
+      authorize: 'https://api.weixin.qq.com/sns/oauth2/access_token',
     },
-		order: {
-			unified: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
-			query: 'https://api.mch.weixin.qq.com/pay/orderquery',
-			close: 'https://api.mch.weixin.qq.com/pay/closeorder'
-		},
-		refund: {
-			create: 'https://api.mch.weixin.qq.com/secapi/pay/refund',
-			query: 'https://api.mch.weixin.qq.com/pay/refundquery',
-			statements: 'https://api.mch.weixin.qq.com/pay/downloadbill',
-			report: 'https://api.mch.weixin.qq.com/payitil/report'
-		}
+    user: {
+        info: 'https://api.weixin.qq.com/sns/userinfo',
+    },
+	order: {
+		unified: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
+		query: 'https://api.mch.weixin.qq.com/pay/orderquery',
+		close: 'https://api.mch.weixin.qq.com/pay/closeorder'
+	},
+	refund: {
+		create: 'https://api.mch.weixin.qq.com/secapi/pay/refund',
+		query: 'https://api.mch.weixin.qq.com/pay/refundquery',
+		statements: 'https://api.mch.weixin.qq.com/pay/downloadbill',
+		report: 'https://api.mch.weixin.qq.com/payitil/report'
+	}
 	},
     /* 微信支付成功回调 指向后端服务器 */
 	reply: 'https://api.91buyin.com/notify/wechat'

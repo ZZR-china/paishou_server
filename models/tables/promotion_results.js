@@ -34,23 +34,27 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
     	    type                  : 'TIMESTAMP',
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         },
-        matches_id                : {
+        matchesId                : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'matches_id',
         },
-        players_id                 : {
+        playersId                 : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
+            field                 : 'players_id',
         },
     }, {
         tableName: 'promotion_results',

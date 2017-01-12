@@ -18,9 +18,10 @@ module.exports = (db) => {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
         },
-        id_card                   : {
+        idCard                   : {
             type                  : Sequelize.STRING(45),
             defaultValue          : null,
+            field                 : 'id_card',
         },
         mobile                    : {
             type                  : Sequelize.STRING(45),
@@ -30,27 +31,32 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
     	    type                  : 'TIMESTAMP',
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         },
-        countries_id              : {
+        countriesId              : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'countries_id',
         },
-        cities_id              : {
+        citiesId                 : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
+            field                 : 'cities_id',
         },
-        users_id                 : {
+        usersId                  : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
+            field                 : 'users_id',
         },
     }, {
         tableName: 'players',

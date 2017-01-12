@@ -14,9 +14,10 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(45),
             allowNull             : false,
         },
-        contact_person            : {
+        contactPerson            : {
             type                  : Sequelize.STRING(45),
             defaultValue          : null,
+            field                 : 'contact_person',
         },
         phone                     : {
             type                  : Sequelize.STRING(45),
@@ -26,19 +27,22 @@ module.exports = (db) => {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
         },
-        created_at: {
+        createdAt: {
             type                  : Sequelize.DATE,
             allowNull             : false,
             defaultValue          : Sequelize.NOW,
+            field                 : 'created_at',
         },
-        updated_at: {
+        updatedAt: {
     	    type                  : 'TIMESTAMP',
     		onUpdate              : Sequelize.NOW,
             defaultValue          : Sequelize.NOW,
+            field                 : 'updated_at',
         },
-        casinos_id                : {
+        casinosId                : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             defaultValue          : null,
+            field                 : 'casinos_id',
         },
     }, {
         tableName: 'organizers',

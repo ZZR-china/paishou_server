@@ -6,10 +6,12 @@ const router = express.Router()
 
 
  /**
-  * @api {post} /app/user/retrieve/getsmscode 找回-申请短信码
+  * @api {post} /app/user/bindMobile/getsmscode 绑定手机-申请短信码
   * @apiGroup User
   *
   * @apiParam {String} mobile 手机号
+  *
+  * @apiUse Header
   *
   * @apiUse Success
   *
@@ -19,17 +21,21 @@ const router = express.Router()
   */
 router.route('/getSmscode')
     .post(
+        Services.token.decode,
+        helper.user.checkBindMobile,
         helper.user.checkPhone,
         helper.user.checkUser,
-        helper.user.retrieve.getSmscode
+        helper.user.bindMobile.getSmscode
     )
 
 /**
- * @api {post} /app/user/retrieve/verifySmscode 找回-验证短信码
+ * @api {post} /app/user/register/verifySmscode 绑定手机-验证短信码
  * @apiGroup User
  *
  * @apiParam {String} mobile 手机号
  * @apiParam {String} smsCode 短信码
+ *
+ * @apiUse Header
  *
  * @apiSuccessExample {json} Success-Response:
  *   HTTP/1.1 200 OK
@@ -42,19 +48,23 @@ router.route('/getSmscode')
  */
 router.route('/verifySmscode')
     .post(
+        Services.token.decode,
+        helper.user.checkBindMobile,
         helper.user.checkPhone,
-        helper.user.retrieve.verifySmscode
+        helper.user.register.verifySmscode
     )
 
 /**
- * @api {put} /app/user/retrieve/setPassword 找回-设置密码
+ * @api {post} /app/user/register/setPassword 绑定手机-设置密码
  * @apiGroup User
  *
  * @apiDescription 密码长度：6-16位
  *
  * @apiParam {String} mobile 手机号
+ * @apiParam {String} password 密码
  * @apiParam {String} temToken 临时token
- * @apiParam {String} password 短信码
+ *
+ * @apiUse Header
  *
  * @apiSuccessExample {json} Success-Response:
  *   HTTP/1.1 200 OK
@@ -66,13 +76,14 @@ router.route('/verifySmscode')
  * @apiVersion 1.0.0
  */
 router.route('/setPassword')
-    .put(
+    .post(
+        Services.token.decode,
+        helper.user.checkBindMobile,
         helper.user.checkPhone,
         helper.user.checkUser,
         helper.user.verifyPwd,
-        helper.user.retrieve.setPassword
+        helper.user.register.setPassword
     )
-
 
 
 module.exports = router

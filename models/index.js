@@ -11,14 +11,20 @@ const t = require('./tables')(db)
 
 t.Casinos.belongsTo(t.Countries, {foreignKey: 'countries_id'})
 t.Casinos.belongsTo(t.Cities, {foreignKey: 'cities_id'})
+//t.Casinos.belongsTo(t.Organizers, {foreignKey: 'casinos_id'})
 
 t.Matches.belongsTo(t.MatchTypes, {foreignKey: 'match_types_id'})
+t.Matches.belongsTo(t.Organizers, {foreignKey: 'organizers_id'})
+
+t.MatchResults.belongsTo(t.Players, {foreignKey: 'players_id'})
+
+t.Organizers.belongsTo(t.Casinos, {foreignKey: 'casinos_id'})
 
 t.Players.belongsTo(t.Countries, {foreignKey: 'countries_id'})
 
 
 t.PromotionResults.belongsTo(t.Players, {foreignKey: 'players_id'})
-t.MatchResults.belongsTo(t.Players, {foreignKey: 'players_id'})
+
 
 
 

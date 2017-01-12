@@ -64,7 +64,7 @@ module.exports = {
         type: 'console',
         layout: {
           type: 'pattern',
-          pattern: '[%r] [%[%5.5p%]] %m'
+          pattern: '[%r] [%[%5.5p%]] [%[%c%]] %m'
         }
       }]
     },

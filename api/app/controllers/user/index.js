@@ -8,6 +8,8 @@ const router = express.Router()
 router.use('/register', require('./register')) //注册
 router.use('/retrieve', require('./retrieve')) //找回
 router.use('/thirdparty', require('./thirdparty')) //第三方登录
+router.use('/bindMobile', require('./bindMobile')) //绑定手机
+router.use('/bindWechat', require('./bindWechat')) //绑定微信
 
 /**
  * @api {get} /app/user 获取个人信息
@@ -69,8 +71,8 @@ router.route('/logout')
  *
  * @apiUse Header
  *
- * @apiParam {String} old_password 原密码
- * @apiParam {String} new_password 新密码
+ * @apiParam {String} oldPassword 原密码
+ * @apiParam {String} newPassword 新密码
  *
  * @apiUse Success
  *

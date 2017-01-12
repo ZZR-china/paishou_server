@@ -8,6 +8,8 @@ const user = {}
 user.register = require('./register')
 user.retrieve = require('./retrieve')
 user.thirdparty = require('./thirdparty')
+user.bindMobile = require('./bindMobile')
+user.bindWechat = require('./bindWechat')
 
 
 const { Users } = Models
@@ -26,11 +28,11 @@ user.info = (req, res) => {
 
             const json = {
                 mobile: user.mobile,
-                real_name: user.real_name,
-                nike_name: user.nike_name,
-                id_card: user.id_card,
-                passport_id: user.passport_id,
-                one_way_permit: user.one_way_permit,
+                realName: user.realName,
+                nikeName: user.nikeName,
+                idCard: user.idCard,
+                passportId: user.passportId,
+                oneWayPermit: user.oneWayPermit,
                 point: user.point,
             }
 
@@ -106,6 +108,7 @@ user.logout = (req, res) => {
     lightco.run(function *($) {
         try {
           const user = req.user
+
           var [err] = yield Services.token.del(user, $)
           if (err) throw err
 
@@ -122,8 +125,8 @@ user.logout = (req, res) => {
 user.revise = (req, res) => {
     lightco.run(function *($) {
         const user = req.user
-        const oldPassword = req.body.old_password
-        const newPassword = req.body.new_password
+        const oldPassword = req.body.oldPassword
+        const newPassword = req.body.newPassword
 
         try {
           const password = user.password
@@ -179,5 +182,38 @@ user.verifyPwd = (req, res, next) => {
 
     next()
 }
+
+//校验是否绑定手机号
+user.checkBindMobile = (req, res, next) => {
+    const user = req.user
+
+    if (user.user) {
+        return Handle.error(res, '1022', 403)
+    }
+
+    next()
+}
+
+//校验用户是否存在
+user.checkUser = function (req, res, next) {
+    lightco.run(function * ($) {
+        const mobile = req.body.mobile
+
+        try {
+            var [err, user] = yield Users.findOne({where: {'user': mobile}})
+            if (err) throw err
+
+            if (user) {
+                return Handle.error(res, '1000', 403)
+            }
+
+            next()
+        } catch (e) {
+            logger.fatal(e)
+            return Handle.error(res)
+        }
+    })
+}
+
 
 module.exports = user

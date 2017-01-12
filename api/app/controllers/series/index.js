@@ -8,6 +8,7 @@ const webcache = Services.cache.webcache
 
 router.use('/hot', require('./hot')) //热门赛事
 router.use('/players', require('./players')) //名次
+router.use('/payInfo', require('./payInfo')) //付款信息
 
 
 /**
@@ -37,7 +38,7 @@ router.route('/')
  * @api {get} /app/series/detail/:id 赛事详情（热门、非热门）
  * @apiGroup Series
  *
- * @apiDescription 缓存时间30秒
+ * @apiDescription 缓存时间30秒、204-返回值为空
  *
  * @apiParam {Number} id 系列赛ID
  *

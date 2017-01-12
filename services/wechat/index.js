@@ -2,6 +2,7 @@
 
 const request = require('./request')
 const auth = require('./auth')
+const user = require('./user')
 const url = Conf.wechat.url
 
 const opts = {
@@ -10,17 +11,21 @@ const opts = {
 }
 
 let wechat = {
-	/* 微信认证 */
+	//微信认证
 	auth: {
 		authorize: auth.authorize
 	},
-	/* 订单 */
+	//获取微信个人信息
+	user: {
+		info: user.info
+	},
+	//订单
     order: {
-		/* 接收微信支付成功通知后,对消息的签名进行验证 */
+		//接收微信支付成功通知后,对消息的签名进行验证
 		verify: function(xml) {
 			return request.verify(xml, opts)
 		},
-		/* 处理微信支付通知后，将结果返回 */
+		//处理微信支付通知后，将结果返回
 		response: function(res, error){
 			res.set('Content-Type', 'text/xml')
 			var xml = ''
@@ -31,28 +36,28 @@ let wechat = {
 			}
 			res.send(xml)
 		},
-		/* 下单api */
+		//下单api
         unified: function(data, cb) {
             request.xmlssl(url.order.unified, data, opts, function(err, data){
 				if (err)
 					return cb(err, data)
-				/* 通信错误 */
+				//通信错误
 				if (data.return_code != 'SUCCESS')
 					return cb(new Error(`${data.return_msg}`))
 
-				/* 业务错误 */
+				//业务错误
 				if (data.result_code != 'SUCCESS') {
 					switch (data.err_code) {
-						/* 以下两种情况 视为业务错误 需重新生成订单 */
-						case 'ORDERCLOSED':				/* 订单已关闭 */
-						case 'OUT_TRADE_NO_USED':		/* 订单号重复 */
+						//以下两种情况 视为业务错误 需重新生成订单
+						case 'ORDERCLOSED':				//订单已关闭
+						case 'OUT_TRADE_NO_USED':		//订单号重复
 							return cb(null, null)
-						/* 其余情况视为通信错误 */
+						//其余情况视为通信错误
 						default:
 							return cb(new Error(`${data.err_code}`))
 					}
 				}
-				/* 成功 */
+				//成功
 				let result = {
 					appid: opts.app.appid,
 					partnerid: data.mch_id,
@@ -66,16 +71,16 @@ let wechat = {
 				cb(null, result)
 			})
         },
-		/* 查询是否付款 */
+		//查询是否付款
         query: function(data, cb) {
             request.xmlssl(url.order.query, data, opts, cb)
         },
-		/* 关闭订单 */
+		//关闭订单
         close: function(data, cb) {
             request.xmlssl(url.order.close, data, opts, cb)
         }
     },
-	/* 退款相关 */
+	//退款相关
     refund: {
         create: function(data, cb) {
             request.xmlssl(url.refund.create, data, opts, cb)
