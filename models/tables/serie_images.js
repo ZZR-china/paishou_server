@@ -4,7 +4,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = (db) => {
-    return db.define('serie_images', {
+    return db.define('serieImages', {
         id                        : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             primaryKey            : true,
@@ -37,8 +37,8 @@ module.exports = (db) => {
             field                 : 'series_id',
         },
     }, {
-        tableName: 'serie_images',
         freezeTableName: true,
+        tableName: 'serie_images',
         timestamps: false,
     })
 }

@@ -26,7 +26,7 @@ const webcache = Services.cache.webcache
  @apiSuccess {String} city 城市*
 
  @apiSuccessExample Success-Response:
-     HTTP/1.1 200 OK
+    HTTP/1.1 200 OK
      {
        "count": 1,
        "rows": [
@@ -53,34 +53,44 @@ router.route('/')
     )
 
 /**
- * @api {get} /app/series/hot/inroduce/:id 赛事介绍（热门）
- * @apiGroup Series
- *
- * @apiDescription 缓存时间30秒、204-返回值为空
- *
- * @apiParam {Number} id 系列赛（热门）ID
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *          "name": "虎扑系列1",
- *          "startDate": "2017-01-10",
- *          "endDate": "2017-01-15",
- *          "desc": "描述",
- *          "casino": {
- *            "address": "虹桥1"
- *          },
- *          "serie_images": [
- *            {
- *              "url": "http://cdn.91buyin.com/%95%B0%E6%8D%AE/mpc.jpg"
- *            },
- *            {
- *              "url": "http://cdn.91buyin.com/%95%B0%E6%8D%AE/mpc.jpg"
- *            }
- *          ]
- *    }
- *
- * @apiVersion 1.0.0
+ @api {get} /app/series/hot/inroduce/:id 赛事介绍（热门）
+ @apiGroup Series
+
+ @apiDescription 缓存时间30秒、204-返回值为空
+
+ @apiParam {Number} id 系列赛（热门）ID
+
+ @apiSuccess {String} name 系列赛名称*
+ @apiSuccess {String} name 系列赛名称
+ @apiSuccess {String} imageUrl 系列赛图片
+ @apiSuccess {String} startDate 开始日期*
+ @apiSuccess {String} endDate 结束日期*
+ @apiSuccess {String} mainPondDesc 主赛奖池信息
+ @apiSuccess {String} mainBuyinDesc 主赛买入信息
+ @apiSuccess {String} country 国家*
+ @apiSuccess {String} city 城市*
+
+ @apiSuccessExample Success-Response:
+    HTTP/1.1 200 OK
+    {
+      "name": "虎扑系列1",
+      "startDate": "2017-01-10",
+      "endDate": "2017-01-15",
+      "desc": null,
+      "casino": {
+        "address": "虹桥1"
+      },
+      "serie_images": [
+        {
+          "url": "http://cdn.91buyin.com/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE/mpc.jpg"
+        },
+        {
+          "url": "http://cdn.91buyin.com/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE/mpc.jpg"
+        }
+      ]
+    }
+
+ @apiVersion 1.0.0
  */
 router.route('/introduce/:id')
     .get(
