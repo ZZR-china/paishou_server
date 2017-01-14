@@ -36,7 +36,7 @@ exports.getSmscode = (req, res) => {
             // }
 
             const code = 8888
-            var body = {
+            const body = {
                 code: 1
             }
 

@@ -43,14 +43,9 @@ exports.promotion = (req, res) => {
                  delete item['player.country.id']
             })
 
-            if (result.count === 0) {
-                return Handle.success(res, 0, 204)
-            }
-            else {
-                yield webcache.set(req, JSON.stringify(result), $)
+            yield webcache.set(req, JSON.stringify(result), $)
 
-                return Handle.success(res, result)
-            }
+            return Handle.success(res, result)
 
         } catch (e) {
             logger.fatal(e)
@@ -89,14 +84,9 @@ exports.result = (req, res) => {
                  delete item['player.country.id']
             })
 
-            if (result.count === 0) {
-                return Handle.success(res, 0, 204)
-            }
-            else {
-                yield webcache.set(req, JSON.stringify(result), $)
+            yield webcache.set(req, JSON.stringify(result), $)
 
-                return Handle.success(res, result)
-            }
+            return Handle.success(res, result)
 
         } catch (e) {
             logger.fatal(e)

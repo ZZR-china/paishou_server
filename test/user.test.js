@@ -3,23 +3,83 @@ var supertest = require('supertest')
 var request = supertest(app)
 var should = require('should')
 
-var token
+var token,smsCode,temToken
 
-const { User } = Models
+var myMobile = '18840822722',
+    myPassword = '123465'
 
+const { Users } = Models
+
+const cache = Services.cache
 const verifyPwd = Conf.user.password.verify
 
-let CreateUser = function () {
-    User.create({
-        user: '18840822721',
-        password: 'af90d4ca6a24a88d5c129935e32a0e5d',
-        mobile: '18840822721',
-    })
+/**
+ * @author   xiaowu
+ * @date     2017-01-13
+ *
+ * @description: 测试手机号注册
+ *
+ * 注：将myMobile换成自己的手机号
+ */
+
+let DeleteUser = function (mobile) {
+    Users.destroy({where: {user: mobile}})
 }
 
-let DeleteUser = function () {
-    User.destroy({where: {user: '18840822721'}})
-}
+describe('[注册]', function () {
+
+    DeleteUser(myMobile)
+
+    it('申请短信码', function (done) {
+        request.post('/app/user/register/getSmscode')
+          .send({'mobile': myMobile})
+          .end(function (err, res) {
+            res.status.should.equal(200)
+
+            cache.hget(`REG_${myMobile}`, 'sms_code', function (err, result) {
+                smsCode = result
+            })
+
+            done(err)
+          })
+    })
+
+    it('验证短信码', function (done) {
+        request.post('/app/user/register/verifySmscode')
+          .send({'mobile': myMobile, 'smsCode': smsCode})
+          .end(function (err, res) {
+            res.status.should.equal(200)
+
+            const text = JSON.parse(res.text)
+            temToken = text.temToken
+
+            done(err)
+          })
+    })
+
+    it('设置密码', function (done) {
+        request.post('/app/user/register/setPassword')
+          .send({
+              'mobile': myMobile,
+              'temToken': temToken,
+              'password': '123456',
+          })
+          .end(function (err, res) {
+              console.log(res);
+            res.status.should.equal(200)
+
+            done(err)
+          })
+    })
+
+})
+
+/**
+ * @author   xiaowu
+ * @date     2017-01-13
+ *
+ * @description: 测试校验手机号
+ */
 
 const checkPhone = (no, code, msg, done) => {
   request.post('/app/user/register/getSmscode')
@@ -48,6 +108,12 @@ describe('[验证手机号]', function () {
 
 })
 
+/**
+ * @author   xiaowu
+ * @date     2017-01-13
+ *
+ * @description: 测试校验手密码
+ */
 
 const _verifyPwd = (password, value) => {
     const result = verifyPwd(password)
@@ -70,24 +136,18 @@ describe('[验证密码]', function () {
 
 })
 
-const checkToken = (token, done) => {
-  request.get('/app/user')
-    .set('authorization', `Bearer ${token}`)
-    .end(function (err, res) {
-      res.status.should.equal(200)
-      done(err)
-    })
-}
+/**
+ * @author   xiaowu
+ * @date     2017-01-13
+ *
+ * @description: 测试登录、修改密码、退出
+ */
 
 describe('[登录、修改密码、退出]', function () {
-    //删除测试用户
-    DeleteUser()
-    //创建测试用户
-    CreateUser()
 
     it('登录成功', function (done) {
         request.post('/app/user/login')
-          .send({'mobile': '18840822721', 'password': '123456'})
+          .send({'mobile': myMobile, 'password': myPassword})
           .end(function (err, res) {
             res.status.should.equal(200)
             const text = JSON.parse(res.text)
@@ -96,14 +156,10 @@ describe('[登录、修改密码、退出]', function () {
           })
     })
 
-    it('验证token', function (done) {
-        checkToken(token, done)
-    })
-
     it('修改成功', function (done) {
         request.put('/app/user/revise')
           .set('authorization', `Bearer ${token}`)
-          .send({'old_password': '123456', 'new_password': '123465'})
+          .send({'oldPassword': myPassword, 'newPassword': '123456'})
           .end(function (err, res) {
             res.status.should.equal(200)
             done(err)
@@ -112,7 +168,7 @@ describe('[登录、修改密码、退出]', function () {
 
     it('修改密码后登录成功', function (done) {
         request.post('/app/user/login')
-          .send({'mobile': '18840822721', 'password': '123465'})
+          .send({'mobile': myMobile, 'password': '123456'})
           .end(function (err, res) {
             res.status.should.equal(200)
             const text = JSON.parse(res.text)
@@ -131,6 +187,3 @@ describe('[登录、修改密码、退出]', function () {
     })
 
 })
-
-
-exports.checkToken = checkToken

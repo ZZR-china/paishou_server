@@ -172,8 +172,8 @@ user.verifyPwd = (req, res, next) => {
         password = req.body.password
     }
 
-    if (req.body.new_password) {
-        password = req.body.new_password
+    if (req.body.newPassword) {
+        password = req.body.newPassword
     }
 
     if (!_verifyPwd(password)) {

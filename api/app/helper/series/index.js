@@ -31,7 +31,7 @@ series.calendar = (req, res) => {
         const DEF = Conf.const.series.calendar.limit_def
         const MAX = Conf.const.series.calendar.limit_max
 
-        let query = []
+        let query = [{publish_state: {$ne: 0}}]
 
         try {
             // 按月查询
@@ -90,7 +90,7 @@ series.calendar = (req, res) => {
 
             opts.limit = opts.limit > MAX ? MAX : opts.limit
 
-            var [err, result] = yield Series.scope('default').findAndCountAll(opts)
+            var [err, result] = yield Series.scope('calendar').findAndCountAll(opts)
             if (err) throw err
 
             result.rows.forEach(function(item) {
@@ -98,13 +98,10 @@ series.calendar = (req, res) => {
                  delete item['casino.country.id']
             })
 
-            if (result.count === 0) {
-                  return Handle.success(res, 0, 204)
-            } else {
-                  yield webcache.set(req, JSON.stringify(result), $)
 
-                  return Handle.success(res, result)
-            }
+            yield webcache.set(req, JSON.stringify(result), $)
+
+            return Handle.success(res, result)
 
         } catch (e) {
             logger.fatal(e)
@@ -204,7 +201,7 @@ series.detail = (req, res) => {
                 }
 
                 if (regularResult === null) {
-                    return Handle.success(res, 0, 204)
+                    return Handle.error(res, '0', 403)
                 }
                 else {
                     yield webcache.set(req, JSON.stringify(regularResult), $)

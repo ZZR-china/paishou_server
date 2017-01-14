@@ -16,6 +16,8 @@ const webcache = Services.cache.webcache
  @apiParam {Number} limit 查询数量（默认5，最大10）
 
  @apiSuccess {String} id 系列赛ID*
+ @apiSuccess {Boolean} publishState 发布状态*
+ @apiSuccess {Boolean} isCooperated 是否合作*
  @apiSuccess {String} name 系列赛名称
  @apiSuccess {String} imageUrl 系列赛图片
  @apiSuccess {DATE} startDate 开始日期*
@@ -27,22 +29,24 @@ const webcache = Services.cache.webcache
 
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK
-     {
-       "count": 1,
-       "rows": [
-         {
-           "id": 4,
-           "name": "Macau Poker Cup 25",
-           "imageUrl": "http://cdn.91buyin.com/%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE/mpc.jpg",
-           "startDate": "2017-01-12",
-           "endDate": "2017-01-31",
-           "mainPondDesc": "5000w",
-           "mainBuyinDesc": "1000",
-           "country": "中国",
-           "city": "北京"
-         }
-       ]
-     }
+    {
+      "count": 1,
+      "rows": [
+        {
+          "id": 2,
+          "publishState": 1,
+          "isCooperated": 0,
+          "name": "虎扑系列2",
+          "imageUrl": null,
+          "startDate": "2017-01-10",
+          "endDate": "2017-01-15",
+          "mainPondDesc": null,
+          "mainBuyinDesc": null,
+          "country": "中国2",
+          "city": "北京1"
+        }
+      ]
+    }
 
  @apiVersion 1.0.0
  */

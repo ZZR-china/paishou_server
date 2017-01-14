@@ -24,6 +24,9 @@ router.use('/payInfo', require('./payInfo')) //付款信息
  @apiParam {Number} offset 从第几位开始查询
  @apiParam {Number} limit 查询数量（默认10，最大15）
 
+ @apiSuccess {Number} id 系列赛ID*
+ @apiSuccess {Boolean} isHot 是否热门赛事*
+ @apiSuccess {String} name 系列赛名称*
  @apiSuccess {String} name 系列赛名称*
  @apiSuccess {DATE} startDate 开始日期*
  @apiSuccess {DATE} endDate 结束日期*
@@ -33,14 +36,29 @@ router.use('/payInfo', require('./payInfo')) //付款信息
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK
     {
-      "count": 1,
+      "count": 2,
       "rows": [
         {
-          "name": "Macau Poker Cup 25",
-          "startDate": "2017-01-12",
-          "endDate": "2017-01-31",
-          "country": "中国",
-          "city": "北京"
+          "id": 2,
+          "isHot": 1,
+          "isCooperated": 0,
+          "name": "虎扑系列2",
+          "startDate": "2017-01-10",
+          "endDate": "2017-01-15",
+          "isOneTicket": 1,
+          "country": "中国2",
+          "city": "北京1"
+        },
+        {
+          "id": 3,
+          "isHot": 0,
+          "isCooperated": 0,
+          "name": "虎扑系列3",
+          "startDate": "2017-03-10",
+          "endDate": "2017-01-15",
+          "isOneTicket": 0,
+          "country": "中国1",
+          "city": "北京1"
         }
       ]
     }
@@ -111,7 +129,6 @@ router.route('/')
         {
           "id": "1"
           "name": "超级挑战杯",
-          "isOneTicketMatch": false,
           "matchDay": "2017-01-15",
           "startTime": 19:16:47,
           "unitPrice": "12",

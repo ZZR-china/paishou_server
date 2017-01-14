@@ -44,6 +44,12 @@ module.exports = (db) => {
             defaultValue          : 0,
             field                 : 'is_daily_serie',
         },
+        isCooperated              : {
+            type                  : Sequelize.BOOLEAN,
+            allowNull             : false,
+            defaultValue          : 0,
+            field                 : 'is_cooperated',
+        },
         desc                      : {
             type                  : Sequelize.TEXT,
             defaultValue          : null,
@@ -118,13 +124,34 @@ module.exports = (db) => {
         timestamps: false,
         scopes: {
           hot: {
-              attributes: ['id','name','imageUrl','startDate','endDate','mainPondDesc','mainBuyinDesc']
+              attributes: [
+                  'id',
+                  'publishState',
+                  'isCooperated',
+                  'name',
+                  'imageUrl',
+                  'startDate',
+                  'endDate',
+                  'mainPondDesc',
+                  'mainBuyinDesc',
+              ]
+          },
+          calendar: {
+              attributes: [
+                  'id',
+                  'isHot',
+                  'isCooperated',
+                  'name',
+                  'startDate',
+                  'endDate',
+                  'isOneTicket',
+              ]
           },
           default: {
-              attributes: ['id', 'name', 'startDate','endDate','isOneTicket']
+              attributes: ['id','name','startDate','endDate','isOneTicket']
           },
           introduce: {
-              attributes: ['name', 'startDate', 'endDate', 'desc']
+              attributes: ['name','startDate','endDate','desc']
           }
         },
     })

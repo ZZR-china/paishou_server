@@ -45,6 +45,7 @@ exports.list = (req, res) => {
               where: {
                   is_hot: 1,
                   end_date: {$gte: timeline},
+                  publish_state: {$ne: 0},
               },
               raw: true,
             }
@@ -59,14 +60,11 @@ exports.list = (req, res) => {
                  delete item['casino.country.id']
             })
 
-            if (result.count === 0) {
-                return Handle.success(res, 0, 204)
-            }
-            else {
-                yield webcache.set(req, JSON.stringify(result), $)
 
-                return Handle.success(res, result)
-            }
+            yield webcache.set(req, JSON.stringify(result), $)
+
+            return Handle.success(res, result)
+
         } catch (e) {
             logger.fatal(e)
             return Handle.error(res)
@@ -95,7 +93,7 @@ exports.introduce = (req, res) => {
             if (err) throw err
 
             if (result === null) {
-                return Handle.success(res, 0, 204)
+                return Handle.error(res, '0', 403)
             }
             else {
                 yield webcache.set(req, JSON.stringify(result), $)

@@ -41,7 +41,7 @@ exports.oneTicket = (req, res) => {
             if (err) throw err
 
             if (oneTicketInfo === null) {
-                return Handle.success(res, 0, 204)
+                return Handle.error(res, '0', 403)
             }
             else {
                 yield webcache.set(req, JSON.stringify(oneTicketInfo), $)
@@ -83,7 +83,7 @@ exports.regular = (req, res) => {
             delete regularInfo['organizer.casino.id']
 
             if (regularInfo === null) {
-                return Handle.success(res, 0, 204)
+                return Handle.error(res, '0', 403)
             }
             else {
                 yield webcache.set(req, JSON.stringify(regularInfo), $)
