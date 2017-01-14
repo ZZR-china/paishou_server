@@ -36,14 +36,14 @@ describe('[注册]', function () {
           .send({'mobile': myMobile})
           .end(function (err, res) {
             res.status.should.equal(200)
-
             cache.hget(`REG_${myMobile}`, 'sms_code', function (err, result) {
                 smsCode = result
+                done(err)
             })
-
-            done(err)
           })
     })
+
+
 
     it('验证短信码', function (done) {
         request.post('/app/user/register/verifySmscode')

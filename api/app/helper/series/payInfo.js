@@ -73,7 +73,6 @@ exports.regular = (req, res) => {
                     }]
                 }],
                 where: {id: id},
-                logging: true,
                 raw: true,
             }
 
