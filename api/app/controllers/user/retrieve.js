@@ -20,7 +20,7 @@ const router = express.Router()
 router.route('/getSmscode')
     .post(
         helper.user.checkPhone,
-        helper.user.checkUser,
+        helper.user.isExist,
         helper.user.retrieve.getSmscode
     )
 
@@ -57,7 +57,7 @@ router.route('/verifySmscode')
  * @apiParam {String} password 短信码
  *
  * @apiSuccessExample {json} Success-Response:
- *   HTTP/1.1 200 OK
+ *   HTTP/1.1 201 OK
  *   Body:
  *   {
  *     'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9......'
@@ -68,7 +68,6 @@ router.route('/verifySmscode')
 router.route('/setPassword')
     .put(
         helper.user.checkPhone,
-        helper.user.checkUser,
         helper.user.verifyPwd,
         helper.user.retrieve.setPassword
     )

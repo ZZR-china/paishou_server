@@ -20,7 +20,7 @@ const router = express.Router()
 router.route('/getSmscode')
     .post(
         helper.user.checkPhone,
-        helper.user.checkUser,
+        helper.user.isNotExist,
         helper.user.register.getSmscode
     )
 
@@ -57,7 +57,7 @@ router.route('/verifySmscode')
  * @apiParam {String} temToken 临时token
  *
  * @apiSuccessExample {json} Success-Response:
- *   HTTP/1.1 200 OK
+ *   HTTP/1.1 201 OK
  *   Body:
  *   {
  *     'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9......'
@@ -68,7 +68,7 @@ router.route('/verifySmscode')
 router.route('/setPassword')
     .post(
         helper.user.checkPhone,
-        helper.user.checkUser,
+        helper.user.isNotExist,
         helper.user.verifyPwd,
         helper.user.register.setPassword
     )

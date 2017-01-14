@@ -26,6 +26,7 @@ router.use('/payInfo', require('./payInfo')) //付款信息
 
  @apiSuccess {Number} id 系列赛ID*
  @apiSuccess {Boolean} isHot 是否热门赛事*
+ @apiSuccess {Boolean} isCooperated 是否热门赛事*
  @apiSuccess {String} name 系列赛名称*
  @apiSuccess {String} name 系列赛名称*
  @apiSuccess {DATE} startDate 开始日期*

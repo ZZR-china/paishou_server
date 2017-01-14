@@ -24,7 +24,7 @@ router.route('/getSmscode')
         Services.token.decode,
         helper.user.checkBindMobile,
         helper.user.checkPhone,
-        helper.user.checkUser,
+        helper.user.isNotExist,
         helper.user.bindMobile.getSmscode
     )
 
@@ -80,7 +80,7 @@ router.route('/setPassword')
         Services.token.decode,
         helper.user.checkBindMobile,
         helper.user.checkPhone,
-        helper.user.checkUser,
+        helper.user.isNotExist,
         helper.user.verifyPwd,
         helper.user.register.setPassword
     )

@@ -106,6 +106,13 @@ exports.setPassword = (req, res) => {
             return Handle.error(res, '1005', 400)
         }
 
+        var [err, user] = yield Users.findOne({where: {'user': mobile}})
+        if (err) throw err
+
+        if (!user) {
+            return Handle.error(res, '1008', 403)
+        }
+
         var [err, token] = yield cache.hget(`RET_${mobile}`, 'token', $)
         if (err) throw err
 
@@ -128,7 +135,7 @@ exports.setPassword = (req, res) => {
             token: jwt
         }
 
-        return Handle.success(res, json)
+        return Handle.success(res, json, 201)
 
     } catch (e) {
         logger.fatal(e)

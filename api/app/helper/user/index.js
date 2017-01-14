@@ -135,6 +135,10 @@ user.revise = (req, res) => {
               return Handle.error(res, '1030', 400)
           }
 
+          if (oldPassword === newPassword) {
+              return Handle.error(res, '1031', 400)
+          }
+
           if (password !== transformPwd(oldPassword)) {
               return Handle.error(res, '1029', 400)
           }
@@ -194,8 +198,29 @@ user.checkBindMobile = (req, res, next) => {
     next()
 }
 
-//校验用户是否存在
-user.checkUser = function (req, res, next) {
+//用户存在
+user.isExist = function (req, res, next) {
+    lightco.run(function * ($) {
+        const mobile = req.body.mobile
+
+        try {
+            var [err, user] = yield Users.findOne({where: {'user': mobile}})
+            if (err) throw err
+
+            if (!user) {
+                return Handle.error(res, '1008', 403)
+            }
+
+            next()
+        } catch (e) {
+            logger.fatal(e)
+            return Handle.error(res)
+        }
+    })
+}
+
+//用户不存在
+user.isNotExist = function (req, res, next) {
     lightco.run(function * ($) {
         const mobile = req.body.mobile
 
