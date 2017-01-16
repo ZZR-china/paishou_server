@@ -123,7 +123,10 @@ module.exports = (db) => {
         freezeTableName: true,
         timestamps: false,
         scopes: {
-          hot: {
+            detail: {
+                attributes: ['id','name','isOneTicket']
+            },
+            hot: {
               attributes: [
                   'id',
                   'publishState',
@@ -135,8 +138,8 @@ module.exports = (db) => {
                   'mainPondDesc',
                   'mainBuyinDesc',
               ]
-          },
-          calendar: {
+            },
+            calendar: {
               attributes: [
                   'id',
                   'isHot',
@@ -146,13 +149,13 @@ module.exports = (db) => {
                   'endDate',
                   'isOneTicket',
               ]
-          },
-          default: {
+            },
+            default: {
               attributes: ['id','name','startDate','endDate','isOneTicket']
-          },
-          introduce: {
+            },
+            introduce: {
               attributes: ['name','startDate','endDate','desc']
-          }
+            }
         },
     })
 }

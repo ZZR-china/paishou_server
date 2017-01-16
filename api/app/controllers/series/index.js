@@ -81,8 +81,6 @@ router.route('/')
  @apiParam {Number} id 系列赛ID
 
  @apiSuccess {String} name 系列赛名称*
- @apiSuccess {DATE} startDate 开始日期*
- @apiSuccess {DATE} endDate 结束日期*
  @apiSuccess {Boolean} isOneTicket 是否一票通赛事*
  @apiSuccess {String} id 赛事ID
  @apiSuccess {String} name_matches 赛事名称*
@@ -90,7 +88,6 @@ router.route('/')
  @apiSuccess {DATE} matchDay 比赛日期
  @apiSuccess {TIME} startTime 比赛开始时间
  @apiSuccess {Decimal} unitPrice 赛事价格
- @apiSuccess {Number} playerAmount 玩家人数
  @apiSuccess {String} name_type 赛事类型
  @apiSuccess {String} isHot 以上是热门
  @apiSuccess {String} notHot 以下是非热门
@@ -114,8 +111,6 @@ router.route('/')
  热门:(isOneTicket=true oneTicketInfo存在)
     {
       "name": "Macau Poker Cup 25",
-      "startDate": "2017-01-12",
-      "endDate": "2017-01-31",
       "isOneTicket": true,
       "oneTicketInfo": {
           "id": 2,
@@ -124,7 +119,6 @@ router.route('/')
           "matchDay": "2017-01-06",
           "startTime": "19:16:47",
           "unitPrice": null,
-          "playerAmount": null
       },
       "matches": [
         {
@@ -133,7 +127,6 @@ router.route('/')
           "matchDay": "2017-01-15",
           "startTime": 19:16:47,
           "unitPrice": "12",
-          "playerAmount": null,
           "type": {
             "name": "hold'em"
           }

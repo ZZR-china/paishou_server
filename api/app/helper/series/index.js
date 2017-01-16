@@ -183,7 +183,7 @@ series.detail = (req, res) => {
                     where: {id: id},
                 }
 
-                var [err, regularResult] = yield Series.scope('default').findOne(opts)
+                var [err, regularResult] = yield Series.scope('detail').findOne(opts)
                 if (err) throw err
 
                 if (regularResult.isOneTicket) {
