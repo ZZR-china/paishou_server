@@ -10,9 +10,10 @@ const webcache = Services.cache.webcache
 
 const series = {}
 
-const { Countries,
+const { Casinos,
         Cities,
-        Casinos,
+        Countries,
+        Currencies,
         Matches,
         MatchTypes,
         Series,
@@ -144,6 +145,10 @@ series.detail = (req, res) => {
                           'relDiscount',
                           'unitPrice',
                       ],
+                      include: [{
+                          model: Currencies,
+                          attributes: ['name'],
+                      }],
                     }],
                     where: {id: id},
                     attributes: ['name','phone','website','isOneTicket'],
@@ -177,6 +182,9 @@ series.detail = (req, res) => {
                         ],
                         include: [{
                             model: MatchTypes,
+                            attributes: ['name'],
+                        }, {
+                            model: Currencies,
                             attributes: ['name'],
                         }],
                         where: {isOneTicketMatch: 0},

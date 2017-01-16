@@ -117,20 +117,25 @@ module.exports = (db) => {
     		defaultValue          : Sequelize.NOW,
             field                 : 'updated_at',
         },
-        organizersId             : {
+        organizersId              : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
             field                 : 'organizers_id',
         },
-        seriesId                 : {
+        seriesId                  : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
             field                 : 'series_id',
         },
-        matchTypesId            : {
+        matchTypesId              : {
             type                  : Sequelize.INTEGER.UNSIGNED,
             allowNull             : false,
             field                 : 'match_types_id',
+        },
+        currenciesId              : {
+            type                  : Sequelize.INTEGER.UNSIGNED,
+            allowNull             : false,
+            field                 : 'currencies_id',
         },
     }, {
         tableName: 'matches',

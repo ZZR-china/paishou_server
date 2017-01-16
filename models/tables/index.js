@@ -5,6 +5,7 @@ module.exports = (db) => {
 		Users: require('./users')(db),
 		Matches: require('./matches')(db),
 		MatchTypes: require('./match_types')(db),
+		Currencies: require('./currencies')(db),
 		Series: require('./series')(db),
 		SerieImages: require('./serie_images')(db),
 		Tours: require('./tours')(db),

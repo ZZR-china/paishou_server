@@ -14,6 +14,7 @@ t.Casinos.belongsTo(t.Cities, {foreignKey: 'cities_id'})
 
 t.Matches.belongsTo(t.MatchTypes, {foreignKey: 'match_types_id'})
 t.Matches.belongsTo(t.Organizers, {foreignKey: 'organizers_id'})
+t.Matches.belongsTo(t.Currencies, {foreignKey: 'currencies_id'})
 
 t.MatchResults.belongsTo(t.Players, {foreignKey: 'players_id'})
 

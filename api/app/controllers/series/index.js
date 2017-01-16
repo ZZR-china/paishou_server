@@ -91,6 +91,7 @@ router.route('/')
  @apiSuccess {TIME} startTime 比赛开始时间
  @apiSuccess {Decimal} unitPrice 赛事价格
  @apiSuccess {String} name_type 赛事类型
+ @apiSuccess {String} name_currency 货币种类
  @apiSuccess {String} isHot 以上是热门
  @apiSuccess {String} notHot 以下是非热门
  @apiSuccess {String} name 系列赛名称*
@@ -107,6 +108,7 @@ router.route('/')
  @apiSuccess {Decimal} absDiscount 绝对打折
  @apiSuccess {Decimal} relDiscount 相对打折
  @apiSuccess {Decimal} unitPrice 单价
+ @apiSuccess {String} name_currency 货币种类
 
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK
@@ -133,7 +135,10 @@ router.route('/')
           "unitPrice": "12",
           "type": {
             "name": "hold'em"
-          }
+           },
+           "currency": {
+             "name": "¥"
+            }
         }
     }
  非热门:
@@ -163,6 +168,9 @@ router.route('/')
           "absDiscount": 0,
           "relDiscount": 0,
           "unitPrice": 0
+          "currency": {
+            "name": "¥"
+           }
         }
       ]
     }
