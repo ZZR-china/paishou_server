@@ -28,29 +28,24 @@ series.payInfo = require('./payInfo')
 series.calendar = (req, res) => {
     lightco.run(function *($) {
         const S = Sequelize
-
-        const DEF = Conf.const.series.calendar.limit_def
-        const MAX = Conf.const.series.calendar.limit_max
-
-        let query = [{publish_state: {$ne: 0}}]
+        let query = []
 
         try {
-            // 按月查询
-            if (req.query.month) {
-                const month = req.query.month
-                const length = month.length
-                if (length === 4) {
-                  query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('startDate'),'%Y'),month),'=',0))
-                }
-                if (length === 6) {
-                  query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('startDate'),'%Y%m'),month),'=',0))
-                }
+            // 当前月份前一年后一年
+            const beforeYear = new Date().getFullYear() - 1
+            const nextYear = new Date().getFullYear() + 1
+
+            let month = new Date().getMonth() + 1
+
+            if (month < 10) {
+                month = `0${month}`
             }
 
-            // 国家
-            if (req.query.country) {
-                var country = {name: req.query.country}
-            }
+            const startDate = `${beforeYear}${month}`
+            const endDate = `${nextYear}${month}`
+
+            query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('start_date'),'%Y%m'),endDate),'<=',0))
+            query.push(S.where(S.fn('PERIOD_DIFF',S.fn('DATE_FORMAT',S.col('start_date'),'%Y%m'),startDate),'>=',0))
 
             const include = [{
                 model: Casinos,
@@ -60,7 +55,6 @@ series.calendar = (req, res) => {
                     attributes: [
                         sequelize.literal('`casino.country`.`name` AS `country`'),
                     ],
-                    where: country || {},
                 }, {
                     model: Cities,
                     attributes: [
@@ -69,27 +63,13 @@ series.calendar = (req, res) => {
                 }],
             }]
 
-            // 巡回赛查询
-            if (req.query.tour) {
-              var tour = {name: req.query.tour}
-
-              include.push({
-                model: Tours,
-                attributes: [],
-                where: tour || {}
-              })
-            }
-
             let opts = {
                 include: include,
-                order: [['start_date', req.query.order || 'ASC']],
-                offset: toInt(req.query.offset, 0),
-                limit: toInt(req.query.limit, DEF),
+                order: [['startDate','ASC']],
                 where: {$and: query},
                 raw: true,
+                logging: true,
             }
-
-            opts.limit = opts.limit > MAX ? MAX : opts.limit
 
             var [err, result] = yield Series.scope('calendar').findAndCountAll(opts)
             if (err) throw err

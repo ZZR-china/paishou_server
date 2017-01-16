@@ -15,14 +15,7 @@ router.use('/payInfo', require('./payInfo')) //付款信息
  @api {get} /app/series 赛事日历
  @apiGroup Series
 
- @apiDescription 缓存时间30秒、204-返回值为空
-
- @apiParam {String} month 按月查询（201701）
- @apiParam {String} country 按国家查询
- @apiParam {String} tour 按巡回赛名称查询
- @apiParam {String} order 排序（默认开始时间）
- @apiParam {Number} offset 从第几位开始查询
- @apiParam {Number} limit 查询数量（默认10，最大15）
+ @apiDescription 缓存时间30秒、返回数据为当前月份的前一年和后一年（当前17年12月，则返回16年12月到18年12月）、排序（默认开始时间）
 
  @apiSuccess {Number} id 系列赛ID*
  @apiSuccess {Boolean} isHot 是否热门赛事*
@@ -88,7 +81,7 @@ router.route('/')
  @apiSuccess {String} id_matches 赛事ID*
  @apiSuccess {Number} publishState 发布转态*
  @apiSuccess {Number} haveResult 是否有赛事结果*
- @apiSuccess {Number} isPromotion 是否合作赛事*
+ @apiSuccess {Number} isPromotion 是否晋级赛*
  @apiSuccess {String} name_matches 赛事名称*
  @apiSuccess {DATE} matchDay 比赛日期
  @apiSuccess {Decimal} realBuyin 买入金额
@@ -98,12 +91,12 @@ router.route('/')
  @apiSuccess {String} name_type 赛事类型*
  @apiSuccess {String} name_currency 货币种类*
  @apiSuccess {String} state 状态*
- @apiSuccess {String} 1  无门票价格
- @apiSuccess {String} 2 不可购票，显示价格
- @apiSuccess {String} 3 可以购票
- @apiSuccess {String} 4 比赛结束，无赛事结果
- @apiSuccess {String} 5 比赛结束，有赛事结果（晋级赛）
- @apiSuccess {String} 6 比赛结束，有赛事结果（非晋级赛）
+ @apiSuccess {Number} 1  无门票价格
+ @apiSuccess {Number} 2 不可购票，显示价格
+ @apiSuccess {Number} 3 可以购票
+ @apiSuccess {Number} 4 比赛结束，无赛事结果
+ @apiSuccess {Number} 5 比赛结束，有赛事结果（晋级赛）
+ @apiSuccess {Number} 6 比赛结束，有赛事结果（非晋级赛）
 
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK

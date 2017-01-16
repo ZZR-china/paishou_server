@@ -43,7 +43,7 @@ module.exports = (db) => {
             allowNull             : false,
             field                 : 'is_one_ticket_match',
         },
-        haveResult               : {
+        haveResult                : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             field                 : 'have_result',
