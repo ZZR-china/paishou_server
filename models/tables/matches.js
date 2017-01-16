@@ -157,12 +157,16 @@ module.exports = (db) => {
             oneTicket: {
                 attributes: [
                     'id',
+                    'publish_state',
                     'name',
                     'isOneTicketMatch',
                     'matchDay',
                     'startTime',
+                    'realBuyin',
+                    'rakeBuyin',
+                    'absDiscount',
+                    'relDiscount',
                     'unitPrice',
-                    'playerAmount',
                 ],
             },
         },

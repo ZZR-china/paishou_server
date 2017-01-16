@@ -137,6 +137,7 @@ series.detail = (req, res) => {
                       model: Matches,
                       attributes: [
                           'id',
+                          'publish_state',
                           'name',
                           'matchDay',
                           'realBuyin',
@@ -173,6 +174,7 @@ series.detail = (req, res) => {
                         model: Matches,
                         attributes: [
                             'id',
+                            'publish_state',
                             'name',
                             'matchDay',
                             'realBuyin',
@@ -197,6 +199,13 @@ series.detail = (req, res) => {
 
                 if (regularResult.isOneTicket) {
                     const oneTicketOpts = {
+                        include: [{
+                            model: MatchTypes,
+                            attributes: ['name'],
+                        }, {
+                            model: Currencies,
+                            attributes: ['name'],
+                        }],
                         where: {
                             seriesId: regularResult.id,
                             isOneTicketMatch: 1,

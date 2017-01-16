@@ -124,7 +124,7 @@ module.exports = (db) => {
         timestamps: false,
         scopes: {
             detail: {
-                attributes: ['id','name','isOneTicket']
+                attributes: ['id','name','startDate','endDate','isOneTicket']
             },
             hot: {
               attributes: [

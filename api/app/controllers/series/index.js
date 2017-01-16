@@ -81,6 +81,8 @@ router.route('/')
  @apiParam {Number} id 系列赛ID
 
  @apiSuccess {String} name 系列赛名称*
+ @apiSuccess {DATE} startDate 开始日期*
+ @apiSuccess {DATE} endDate 结束日期*
  @apiSuccess {Boolean} isOneTicket 是否一票通赛事*
  @apiSuccess {String} id 赛事ID
  @apiSuccess {String} name_matches 赛事名称*
@@ -91,7 +93,7 @@ router.route('/')
  @apiSuccess {TIME} startTime 比赛开始时间
  @apiSuccess {Decimal} unitPrice 赛事价格
  @apiSuccess {String} name_type 赛事类型
- @apiSuccess {String} name_currency 货币种类
+ @apiSuccess {String} name_currency 货币种类*
  @apiSuccess {String} isHot 以上是热门
  @apiSuccess {String} notHot 以下是非热门
  @apiSuccess {String} name 系列赛名称*
@@ -108,25 +110,40 @@ router.route('/')
  @apiSuccess {Decimal} absDiscount 绝对打折
  @apiSuccess {Decimal} relDiscount 相对打折
  @apiSuccess {Decimal} unitPrice 单价
- @apiSuccess {String} name_currency 货币种类
+ @apiSuccess {String} name_currency 货币种类*
 
  @apiSuccessExample Success-Response:
     HTTP/1.1 200 OK
  热门:(isOneTicket=true oneTicketInfo存在)
     {
+      "id": 2,
       "name": "Macau Poker Cup 25",
+      "startDate": "2017-01-10",
+      "endDate": "2017-01-15",
       "isOneTicket": true,
       "oneTicketInfo": {
           "id": 2,
+          "publish_state": 2,
           "name": "2",
           "isOneTicketMatch": true,
           "matchDay": "2017-01-06",
           "startTime": "19:16:47",
+          "realBuyin": 0,
+          "rakeBuyin": 0,
+          "absDiscount": null,
+          "relDiscount": null,
           "unitPrice": null,
+          "type": {
+            "name": "asdf"
+          },
+          "currency": {
+            "name": "¥"
+          }
       },
       "matches": [
         {
           "id": "1"
+          "publish_state": 2,
           "name": "超级挑战杯",
           "matchDay": "2017-01-15",
           "realBuyin": 0,
@@ -161,6 +178,7 @@ router.route('/')
       "matches": [
         {
           "id": 1,
+          "publish_state": 2,
           "name": "1",
           "matchDay": "2017-01-07",
           "realBuyin": 0,
