@@ -86,6 +86,8 @@ router.route('/')
  @apiSuccess {String} name_matches 赛事名称*
  @apiSuccess {Boolean} isOneTicketMatch 是否一票通赛事*
  @apiSuccess {DATE} matchDay 比赛日期
+ @apiSuccess {Decimal} realBuyin 买入金额
+ @apiSuccess {Decimal} rakeBuyin 佣金
  @apiSuccess {TIME} startTime 比赛开始时间
  @apiSuccess {Decimal} unitPrice 赛事价格
  @apiSuccess {String} name_type 赛事类型
@@ -125,6 +127,8 @@ router.route('/')
           "id": "1"
           "name": "超级挑战杯",
           "matchDay": "2017-01-15",
+          "realBuyin": 0,
+          "rakeBuyin": 0,
           "startTime": 19:16:47,
           "unitPrice": "12",
           "type": {

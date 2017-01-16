@@ -170,9 +170,10 @@ series.detail = (req, res) => {
                             'id',
                             'name',
                             'matchDay',
+                            'realBuyin',
+                            'rakeBuyin',
                             'startTime',
                             'unitPrice',
-                            'playerAmount',
                         ],
                         include: [{
                             model: MatchTypes,
