@@ -15,7 +15,7 @@ module.exports = (db) => {
             allowNull             : false,
         },
         publishState              : {
-            type                  : Sequelize.BOOLEAN,
+            type                  : 'TINYINT(1)',
             allowNull             : false,
             defaultValue          : 0,
             field                 : 'publish_state',
@@ -26,64 +26,69 @@ module.exports = (db) => {
             defaultValue          : 0,
             field                 : 'is_e_ticket',
         },
-        isMain                   : {
+        isMain                    : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
             field                 : 'is_main',
         },
-        isPromotion              : {
+        isPromotion               : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             defaultValue          : 0,
             field                 : 'is_promotion',
         },
-        isOneTicketMatch       : {
+        isOneTicketMatch          : {
             type                  : Sequelize.BOOLEAN,
             allowNull             : false,
             field                 : 'is_one_ticket_match',
         },
-        imageUrl                 : {
+        haveResult               : {
+            type                  : Sequelize.BOOLEAN,
+            allowNull             : false,
+            field                 : 'have_result',
+        },
+        imageUrl                  : {
             type                  : Sequelize.STRING(255),
             defaultValue          : null,
             field                 : 'image_url',
         },
-        matchDay                 : {
+        matchDay                  : {
             type                  : Sequelize.DATEONLY,
             defaultValue          : null,
             field                 : 'match_day',
         },
-        startTime                : {
+        startTime                 : {
             type                  : Sequelize.TIME,
             defaultValue          : null,
             field                 : 'start_time',
         },
-        closeRegTime            : {
+        closeRegTime              : {
             type                  : Sequelize.TIME,
             defaultValue          : null,
             field                 : 'close_reg_time',
         },
-        realBuyin                : {
+        realBuyin                 : {
             type                  : Sequelize.DECIMAL(10,2),
             defaultValue          : 0,
             field                 : 'real_buyin',
         },
-        rakeBuyin                : {
+        rakeBuyin                 : {
             type                  : Sequelize.DECIMAL(10,2),
             defaultValue          : 0,
             field                 : 'rake_buyin',
         },
-        absDiscount              : {
+        absDiscount               : {
             type                  : Sequelize.DECIMAL(7,2),
             defaultValue          : null,
             field                 : 'abs_discount',
         },
-        relDiscount              : {
+        relDiscount               : {
             type                  : Sequelize.DECIMAL(7,2),
             defaultValue          : null,
             field                 : 'rel_discount',
         },
-        unitPrice                : {
+        unitPrice                 : {
             type                  : Sequelize.DECIMAL(10,2),
             defaultValue          : null,
             field                 : 'unit_price',
@@ -92,7 +97,7 @@ module.exports = (db) => {
             type                  : Sequelize.INTEGER,
             defaultValue          : null,
         },
-        playerAmount             : {
+        playerAmount              : {
             type                  : Sequelize.INTEGER,
             defaultValue          : null,
             field                 : 'player_amount',

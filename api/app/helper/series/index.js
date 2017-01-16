@@ -111,123 +111,153 @@ series.calendar = (req, res) => {
     })
 }
 
-//赛事详情
+//热门赛事详情
+series.isHotDetail = (req, res) => {
+    lightco.run(function *($) {
+        const id = req.params.id
+
+        try {
+            const opts = {
+                include: [{
+                    model: Matches,
+                    attributes: [
+                        'id',
+                        'publishState',
+                        'haveResult',
+                        'isPromotion',
+                        'name',
+                        'matchDay',
+                        'realBuyin',
+                        'rakeBuyin',
+                        'startTime',
+                        'unitPrice',
+                    ],
+                    include: [{
+                        model: MatchTypes,
+                        attributes: ['name'],
+                    }, {
+                        model: Currencies,
+                        attributes: ['name'],
+                    }],
+                    where: {isOneTicketMatch: 0},
+                }],
+                where: {id: id},
+            }
+
+            var [err, hotResult] = yield Series.scope('detail').findOne(opts)
+            if (err) throw err
+
+            hotResult.matches.forEach(function (item) {
+                if (item.unitPrice === null) {
+                    item.dataValues.state = 1
+                }
+                else if (item.publishState === 1) {
+                    item.dataValues.state = 2
+                }
+
+                if (item.publishState === 2) {
+                    item.dataValues.state = 3
+                }
+
+                if (item.publishState === 3) {
+                    if (!item.haveResult) {
+                        item.dataValues.state = 4
+                    }
+                    else {
+                        if (item.isPromotion) {
+                            item.dataValues.state = 5
+                        }
+                        else {
+                            item.dataValues.state = 6
+                        }
+                    }
+                }
+            })
+
+            if (hotResult.isOneTicket) {
+                const oneTicketOpts = {
+                    include: [{
+                        model: MatchTypes,
+                        attributes: ['name'],
+                    }, {
+                        model: Currencies,
+                        attributes: ['name'],
+                    }],
+                    where: {
+                        seriesId: hotResult.id,
+                        isOneTicketMatch: 1,
+                    },
+                }
+
+                var [err, oneTicketMatch] = yield Matches.scope('oneTicket').findOne(oneTicketOpts)
+                if (err) throw err
+
+                hotResult.dataValues.oneTicketInfo = oneTicketMatch
+            }
+
+            if (hotResult === null) {
+                return Handle.error(res, '0', 403)
+            }
+            else {
+                yield webcache.set(req, JSON.stringify(hotResult), $)
+
+                return Handle.success(res, hotResult)
+            }
+
+        } catch (e) {
+            logger.fatal(e)
+            return Handle.error(res)
+        }
+    })
+}
+
+//非热门赛事详情
 series.detail = (req, res) => {
     lightco.run(function *($) {
         const id = req.params.id
 
         try {
-            var [err, serie] = yield Series.findById(id)
+            const regularOpts = {
+                include: [{
+                  model: SerieImages,
+                  attributes: [['image_url','url']],
+                }, {
+                  model: Casinos,
+                  attributes: ['address'],
+                }, {
+                  model: Matches,
+                  attributes: [
+                      'id',
+                      'publishState',
+                      'name',
+                      'matchDay',
+                      'realBuyin',
+                      'rakeBuyin',
+                      'absDiscount',
+                      'relDiscount',
+                      'unitPrice',
+                  ],
+                  include: [{
+                      model: Currencies,
+                      attributes: ['name'],
+                  }],
+                }],
+                where: {id: id},
+                attributes: ['id','name','phone','website','isOneTicket'],
+                order: ['matches.match_day'],
+            }
+
+            var [err, regularResult] = yield Series.findOne(regularOpts)
             if (err) throw err
 
-            if (serie === null) {
-                return Handle.error(res, '1030', 400)
-            }
-
-            //判断是否热门赛事
-            if (serie.isHot == 0) {
-                const hotOpts = {
-                    include: [{
-                      model: SerieImages,
-                      attributes: [['image_url','url']],
-                    }, {
-                      model: Casinos,
-                      attributes: ['address'],
-                    }, {
-                      model: Matches,
-                      attributes: [
-                          'id',
-                          'publish_state',
-                          'name',
-                          'matchDay',
-                          'realBuyin',
-                          'rakeBuyin',
-                          'absDiscount',
-                          'relDiscount',
-                          'unitPrice',
-                      ],
-                      include: [{
-                          model: Currencies,
-                          attributes: ['name'],
-                      }],
-                    }],
-                    where: {id: id},
-                    attributes: ['name','phone','website','isOneTicket'],
-                    order: ['matches.match_day'],
-                }
-
-                var [err, hotResult] = yield Series.findOne(hotOpts)
-                if (err) throw err
-
-                if (hotResult === null) {
-                    return Handle.success(res, 0, 204)
-                }
-                else {
-                    yield webcache.set(req, JSON.stringify(hotResult), $)
-
-                    return Handle.success(res, hotResult)
-                }
+            if (regularResult === null) {
+                return Handle.success(res, 0, 204)
             }
             else {
-                const opts = {
-                    include: [{
-                        model: Matches,
-                        attributes: [
-                            'id',
-                            'publish_state',
-                            'name',
-                            'matchDay',
-                            'realBuyin',
-                            'rakeBuyin',
-                            'startTime',
-                            'unitPrice',
-                        ],
-                        include: [{
-                            model: MatchTypes,
-                            attributes: ['name'],
-                        }, {
-                            model: Currencies,
-                            attributes: ['name'],
-                        }],
-                        where: {isOneTicketMatch: 0},
-                    }],
-                    where: {id: id},
-                }
+                yield webcache.set(req, JSON.stringify(regularResult), $)
 
-                var [err, regularResult] = yield Series.scope('detail').findOne(opts)
-                if (err) throw err
-
-                if (regularResult.isOneTicket) {
-                    const oneTicketOpts = {
-                        include: [{
-                            model: MatchTypes,
-                            attributes: ['name'],
-                        }, {
-                            model: Currencies,
-                            attributes: ['name'],
-                        }],
-                        where: {
-                            seriesId: regularResult.id,
-                            isOneTicketMatch: 1,
-                        },
-                    }
-
-                    var [err, oneTicketMatch] = yield Matches.scope('oneTicket').findOne(oneTicketOpts)
-                    if (err) throw err
-
-                    regularResult.dataValues.oneTicketInfo = oneTicketMatch
-                }
-
-                if (regularResult === null) {
-                    return Handle.error(res, '0', 403)
-                }
-                else {
-                    yield webcache.set(req, JSON.stringify(regularResult), $)
-
-                    return Handle.success(res, regularResult)
-                }
+                return Handle.success(res, regularResult)
             }
-
         } catch (e) {
             logger.fatal(e)
             return Handle.error(res)
