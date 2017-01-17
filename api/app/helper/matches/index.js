@@ -52,6 +52,10 @@ matches.join = (req, res) => {
             var [err, match] = yield Matches.findOne(matchOpts)
             if (err) throw err
 
+            if (match === null) {
+                return Handle.error(res, '2003', 400)
+            }
+
             if (match.publishState !== 2) {
                 return Handle.error(res, '2003', 403)
             }
@@ -62,7 +66,7 @@ matches.join = (req, res) => {
             if (unitPrice === null) {
                 throw new Error(`matchesId:${id} 无效的价格!`)
             }
-            
+
             //比赛日期
             const day = match.matchDay
             //结束时间

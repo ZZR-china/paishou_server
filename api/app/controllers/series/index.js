@@ -206,6 +206,7 @@ router.route('/isHot/detail/:id')
 @apiSuccess {String} website 网址
 @apiSuccess {Boolean} isOneTicket 是否一票通赛事*
 @apiSuccess {String} imagesUrl 系列赛图集
+@apiSuccess {String} name_casino 俱乐部名称*
 @apiSuccess {String} address 赛事地址*
 @apiSuccess {String} id_matches 赛事ID*
 @apiSuccess {String} publishState 发布状态*
@@ -231,6 +232,7 @@ router.route('/isHot/detail/:id')
        "12"
      ]
     "casino": {
+      "name": "京扑1",
       "address": "虹桥1"
     },
     "matches": [

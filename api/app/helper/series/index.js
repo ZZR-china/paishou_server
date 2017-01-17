@@ -204,7 +204,7 @@ series.detail = (req, res) => {
             const regularOpts = {
                 include: [{
                   model: Casinos,
-                  attributes: ['address'],
+                  attributes: ['name','address'],
                 }, {
                   model: Matches,
                   attributes: [
