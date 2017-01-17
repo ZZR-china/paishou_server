@@ -203,9 +203,6 @@ series.detail = (req, res) => {
         try {
             const regularOpts = {
                 include: [{
-                  model: SerieImages,
-                  attributes: [['image_url','url']],
-                }, {
                   model: Casinos,
                   attributes: ['address'],
                 }, {
@@ -234,11 +231,29 @@ series.detail = (req, res) => {
             var [err, regularResult] = yield Series.findOne(regularOpts)
             if (err) throw err
 
+            const opts = {
+                attributes: [['image_url','url']],
+                where: {seriesId: id},
+            }
+
+            var [err, images] = yield SerieImages.findAll(opts)
+            if (err) throw err
+
+            let imagesUrl = []
+
+            if (images != null) {
+                images.map(function (item) {
+                     imagesUrl.push(item.dataValues.url)
+                })
+            }
+
+            regularResult.dataValues.imagesUrl = imagesUrl
+
             if (regularResult === null) {
-                return Handle.success(res, 0, 204)
+                return Handle.success(res, 0, 403)
             }
             else {
-                yield webcache.set(req, JSON.stringify(regularResult), $)
+                //yield webcache.set(req, JSON.stringify(regularResult), $)
 
                 return Handle.success(res, regularResult)
             }

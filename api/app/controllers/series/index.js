@@ -38,7 +38,6 @@ router.use('/payInfo', require('./payInfo')) //付款信息
           "name": "虎扑系列2",
           "startDate": "2017-01-10",
           "endDate": "2017-01-15",
-          "isOneTicket": 1,
           "country": "中国2",
           "city": "北京1"
         },
@@ -49,7 +48,6 @@ router.use('/payInfo', require('./payInfo')) //付款信息
           "name": "虎扑系列3",
           "startDate": "2017-03-10",
           "endDate": "2017-01-15",
-          "isOneTicket": 0,
           "country": "中国1",
           "city": "北京1"
         }
@@ -207,7 +205,7 @@ router.route('/isHot/detail/:id')
 @apiSuccess {String} phone 举办方手机
 @apiSuccess {String} website 网址
 @apiSuccess {Boolean} isOneTicket 是否一票通赛事*
-@apiSuccess {String} url 系列赛图集
+@apiSuccess {String} imagesUrl 系列赛图集
 @apiSuccess {String} address 赛事地址*
 @apiSuccess {String} id_matches 赛事ID*
 @apiSuccess {String} publishState 发布状态*
@@ -228,14 +226,10 @@ router.route('/isHot/detail/:id')
     "phone": null,
     "website": null,
     "isOneTicket": true,
-    "serieImages": [
-      {
-        "url": "12"
-      },
-      {
-        "url": "12"
-      }
-    ],
+    "imagesUrl": [
+       "12",
+       "12"
+     ]
     "casino": {
       "address": "虹桥1"
     },
