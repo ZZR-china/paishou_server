@@ -127,6 +127,10 @@ series.isHotDetail = (req, res) => {
             var [err, hotResult] = yield Series.scope('detail').findOne(opts)
             if (err) throw err
 
+            if (hotResult === null) {
+                return Handle.error(res, '1030', 400)
+            }
+
             hotResult.matches.forEach(function (item) {
                 if (item.unitPrice === null) {
                     item.dataValues.state = 1
