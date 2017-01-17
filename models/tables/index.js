@@ -16,5 +16,6 @@ module.exports = (db) => {
 		PromotionResults: require('./promotion_results')(db),
 		Players: require('./players')(db),
 		MatchResults: require('./match_results')(db),
+		Orders: require('./orders')(db),
 	}
 }
