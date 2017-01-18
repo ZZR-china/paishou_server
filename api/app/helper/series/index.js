@@ -224,12 +224,16 @@ series.detail = (req, res) => {
                   }],
                 }],
                 where: {id: id},
-                attributes: ['id','name','phone','website','isOneTicket'],
+                attributes: ['id','name','phone','website','isHot','isOneTicket'],
                 order: ['matches.match_day'],
             }
 
             var [err, regularResult] = yield Series.findOne(regularOpts)
             if (err) throw err
+
+            if (regularResult.isHot) {
+                return Handle.error(res, '1030', 400)
+            }
 
             const opts = {
                 attributes: [['image_url','url']],
@@ -253,7 +257,7 @@ series.detail = (req, res) => {
                 return Handle.success(res, 0, 403)
             }
             else {
-                //yield webcache.set(req, JSON.stringify(regularResult), $)
+                yield webcache.set(req, JSON.stringify(regularResult), $)
 
                 return Handle.success(res, regularResult)
             }
